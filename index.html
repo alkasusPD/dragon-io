@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>DRAGON.IO</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="shell">
+    <canvas id="game" width="540" height="960" aria-label="Sky Rogue game"></canvas>
+    <div id="hud" class="game-hud" aria-label="게임 정보">
+      <div class="hero-hud">
+        <div class="hero-portrait" aria-hidden="true"></div>
+        <div class="hero-bars">
+          <div class="hp-frame"><div id="hudHp" class="hp-fill"></div></div>
+          <div class="level-chip"><span class="level-gem">◆</span><span id="hudLevel">LV. 1</span></div>
+        </div>
+      </div>
+      <div class="run-hud">
+        <div class="stat-chip"><span class="coin-icon">●</span><span id="hudScore">00000</span></div>
+        <div class="stat-chip"><span class="wave-icon">☠</span><span id="hudWave">WAVE 1</span></div>
+      </div>
+      <button id="pause" class="pause-button" type="button" aria-label="일시정지"><span></span><span></span></button>
+    </div>
+    <button id="dive" class="flight-control" type="button" aria-label="고도 전환">
+      <span class="flight-icon">▼</span>
+      <span class="flight-label">하강</span>
+    </button>
+    <section id="titleScreen" class="screen title-screen visible" aria-label="DRAGON.IO 타이틀 화면">
+      <button id="titleStart" class="screen-hitbox title-start" type="button" aria-label="START"></button>
+    </section>
+    <section id="lobbyScreen" class="screen lobby-screen" aria-label="챕터 로비 화면">
+      <button id="lobbyPlay" class="screen-hitbox lobby-play" type="button" aria-label="Play"></button>
+    </section>
+    <section id="upgrade" class="panel">
+      <p class="eyebrow">LEVEL UP</p>
+      <h2>기체 강화 선택</h2>
+      <div id="cards"></div>
+    </section>
+    <section id="gameover" class="panel">
+      <p class="eyebrow">MISSION FAILED</p>
+      <h2>비행 종료</h2>
+      <p id="result"></p>
+      <div class="result-actions">
+        <button id="backLobby">로비로</button>
+        <button id="restart">재도전</button>
+      </div>
+    </section>
+    <section id="pausePanel" class="panel">
+      <p class="eyebrow">FLIGHT PAUSED</p>
+      <h2>일시정지</h2>
+      <button id="resume">계속 비행</button>
+    </section>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
