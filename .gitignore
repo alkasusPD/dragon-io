@@ -10,3 +10,10 @@ tmp_balance/
 .DS_Store
 Thumbs.db
 *.log
+
+# Android build dependencies and outputs
+node_modules/
+.android-toolchain/
+android/.gradle/
+android/local.properties
+android/app/build/

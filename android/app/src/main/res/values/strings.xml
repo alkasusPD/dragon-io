@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DRAGON.IO</string>
+    <string name="title_activity_main">DRAGON.IO</string>
+    <string name="package_name">com.alkasuspd.dragonio</string>
+    <string name="custom_url_scheme">com.alkasuspd.dragonio</string>
+</resources>

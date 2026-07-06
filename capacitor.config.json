@@ -1,0 +1,8 @@
+{
+  "appId": "com.alkasuspd.dragonio",
+  "appName": "DRAGON.IO",
+  "webDir": "dist-mobile",
+  "server": {
+    "androidScheme": "https"
+  }
+}
