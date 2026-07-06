@@ -15,7 +15,7 @@ art.venora.src = 'assets/sprites/dragon-venora.png';
 art.enemy.src = 'assets/sprites/wyvern-blue.png';
 art.eliteWyvernParts.src = 'assets/sprites/elite-parts-wyvern.png';
 art.miniBoss.src = 'assets/sprites/wyvern-crimson-armored.png';
-art.bg.src = 'assets/backgrounds/sky-canyon.png';
+art.bg.src = matchMedia('(pointer: coarse)').matches ? 'assets/backgrounds/sky-canyon-tall.png' : 'assets/backgrounds/sky-canyon.png';
 art.shadow.src = 'assets/sprites/dragon-shadow.png';
 
 let state = 'title', last = 0, time = 0, animationTime = 0, score = 0, wave = 1, spawnClock = 0, bgY = 0, waveBanner = 0, bossBanner = 0, countdownTime = 0, countdownValue = 0;
