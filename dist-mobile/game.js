@@ -80,7 +80,7 @@ function spawnMiniBoss(){
 }
 function spawnChampion(){
   const tough=1+time/65,hp=220*tough;
-  enemies.push({x:rand(105,W-105),y:-115,r:34,hp,max:hp,speed:52,sway:.9,phase:rand(0,7),damage:32,type:'champion',monsterId:'manta',champion:true,anim:rand(0,12),attack:1.25,pattern:'enhancedOrb',rotation:0,targetRotation:0});
+  enemies.push({x:rand(105,W-105),y:-115,r:34,hp,max:hp,speed:52,sway:.9,phase:rand(0,7),damage:32,type:'champion',monsterId:'manta',champion:true,anim:rand(0,12),attack:1.25,pattern:'enhancedOrb',rotation:0,targetRotation:0,anchorY:230,patrolDir:Math.random()<.5?-1:1});
 }
 function spawnChapterBoss(){
   const tough=1+time/90,hp=1800*tough;
@@ -245,6 +245,9 @@ function update(dt){
         e.x+=e.patrolDir*patrolSpeed*dt;e.y+=(targetY-e.y)*Math.min(1,dt*2.2);
         if(e.x<82){e.x=82;e.patrolDir=1;}else if(e.x>W-82){e.x=W-82;e.patrolDir=-1;}
       }
+    }else if(e.champion){
+      if(e.y<e.anchorY)e.y=Math.min(e.anchorY,e.y+e.speed*dt);
+      else{const patrolSpeed=88,targetY=e.anchorY+Math.sin(time*1.15+e.phase)*62;e.x+=e.patrolDir*patrolSpeed*dt;e.y+=(targetY-e.y)*Math.min(1,dt*2.4);if(e.x<78){e.x=78;e.patrolDir=1;}else if(e.x>W-78){e.x=W-78;e.patrolDir=-1;}}
     }else{e.y+=e.speed*dt;e.x+=Math.sin(time*e.sway+e.phase)*32*dt;}
     e.anim+=dt*12;e.attack-=dt;
     if(e.poisonTime>0){e.poisonTime-=dt;e.hp-=e.poisonDps*dt;e.poisonTextClock=(e.poisonTextClock||0)-dt;if(e.poisonTextClock<=0){showDamage(e.x,e.y,e.poisonDps*.5);e.poisonTextClock=.5;}if(Math.random()<dt*8)burst(e.x+rand(-12,12),e.y+rand(-12,12),'#8dff45',1,45);if(e.hp<=0){defeatEnemy(e);return;}}
@@ -328,6 +331,7 @@ function showUpgrade(){
 function setResultMode(clear){ui.over.querySelector('[data-i18n="result.eyebrow"]').textContent=t(clear?'result.clearEyebrow':'result.eyebrow');ui.over.querySelector('[data-i18n="result.title"]').textContent=t(clear?'result.clearTitle':'result.title');}
 function completeChapter(){releaseVirtualJoystick();state='over';setResultMode(true);ui.result.textContent=t('result.clearSummary',{score});ui.over.classList.add('visible');ultimateButton.classList.remove('visible');hud.root.classList.remove('visible');}
 function endGame(){releaseVirtualJoystick();state='over';setResultMode(false);ui.result.textContent=t('result.summary',{seconds:Math.floor(time),score,wave});ui.over.classList.add('visible');ultimateButton.classList.remove('visible');hud.root.classList.remove('visible');}
+function jumpToChapterBoss(){releaseVirtualJoystick();enemies=[];bullets=[];enemyShots=[];lasers=[];particles=[];gems=[];essences=[];player.hp=player.maxHp;player.ultimateGauge=player.ultimateMax;time=(CHAPTER_BOSS_WAVE-1)*WAVE_DURATION;wave=CHAPTER_BOSS_WAVE;waveBanner=2.4;spawnChapterBoss();state='play';ui.pause.classList.remove('visible');ultimateButton.classList.add('visible');hud.root.classList.add('visible');updateUltimateButton();last=performance.now();}
 
 function drawSprite(img,frame,x,y,size,rotation=0,alpha=1,hitFlash=0,scaleX=1,scaleY=1){if(!img.complete)return;const width=size*scaleX,height=size*scaleY;ctx.save();ctx.globalAlpha=alpha;ctx.translate(x,y);ctx.rotate(rotation);ctx.drawImage(img,frame*256,0,256,256,-width/2,-height/2,width,height);if(hitFlash>0){ctx.filter='brightness(0) invert(1)';ctx.globalAlpha=Math.min(.9,hitFlash*8)*alpha;ctx.drawImage(img,frame*256,0,256,256,-width/2,-height/2,width,height);}ctx.restore();}
 function drawMonsterVisual(e,frame,y,size,rotation){if(e.chapterBoss){drawSprite(art.chapterBoss,frame,e.x,y,size,rotation,1,e.hitFlash||0);return;}if(e.boss){drawSprite(art.miniBoss,frame,e.x,y,size,rotation,1,e.hitFlash||0);return;}const visual=monsterVisuals[e.monsterId]||monsterVisuals.wyvern;drawSprite(art[visual.baseArt],frame,e.x,y,size,rotation,1,e.hitFlash||0);if(e.elite&&visual.elitePartsArt)drawSprite(art[visual.elitePartsArt],frame,e.x,y,size,rotation,1,e.hitFlash||0);}
@@ -451,6 +455,7 @@ ui.reroll.onclick=()=>{if(state!=='upgrade'||player.rerolls<=0)return;const prev
 document.querySelector('#backLobby').onclick=()=>{releaseVirtualJoystick();state='lobby';ui.over.classList.remove('visible');ui.lobby.classList.add('visible');hud.root.classList.remove('visible');ultimateButton.classList.remove('visible');};
 document.querySelector('#pause').onclick=()=>{if(state==='play'){releaseVirtualJoystick();state='paused';ui.pause.classList.add('visible');ultimateButton.classList.remove('visible');}};
 document.querySelector('#resume').onclick=()=>{if(state==='paused'){state='play';ui.pause.classList.remove('visible');ultimateButton.classList.add('visible');last=performance.now();}};
+document.querySelector('#skipBoss').onclick=jumpToChapterBoss;
 ultimateButton.addEventListener('pointerdown',e=>e.stopPropagation());
 ultimateButton.addEventListener('click',useUltimate);
 addEventListener('keydown',e=>keys.add(e.code));addEventListener('keyup',e=>keys.delete(e.code));

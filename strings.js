@@ -79,6 +79,7 @@ const STRING_TABLE = {
     'pause.eyebrow': 'FLIGHT PAUSED',
     'pause.title': '일시정지',
     'pause.resume': '계속 비행',
+    'cheat.boss': '보스전 테스트',
 
     'dive.ready': '하강',
     'dive.active': '하강 중\n{seconds}초',
@@ -182,6 +183,7 @@ const STRING_TABLE = {
     'pause.eyebrow': 'FLIGHT PAUSED',
     'pause.title': 'Paused',
     'pause.resume': 'Resume Flight',
+    'cheat.boss': 'Test Boss Battle',
 
     'dive.ready': 'Dive',
     'dive.active': 'Diving\n{seconds}s',

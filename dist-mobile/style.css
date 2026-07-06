@@ -64,6 +64,7 @@ small { color: #8da7bd; line-height: 1.7; }
 #cards button span { margin-top: 5px; color: #9cb7c9; font-size: 13px; font-weight: 500; }
 .reroll-button { min-width: 150px; margin: 18px auto 0; padding: 11px 20px; color: white; border-color: #8feaff; background: #176b8f; box-shadow: 0 6px 0 #0b405e, 0 10px 22px #092d3466; }
 .reroll-button:disabled { opacity: .45; cursor: not-allowed; transform: none; background: #536871; box-shadow: 0 4px 0 #31464f; }
+.cheat-button { margin-top: 0; color: #fff; border-color: #d8a6ff; background: #63358e; box-shadow: 0 6px 0 #38204d, 0 10px 22px #160b2466; }
 .result-actions { display: flex; justify-content: center; gap: 12px; }
 .result-actions button { min-width: 132px; }
 @media (pointer: coarse) { button:hover { transform: none; } canvas { cursor: default; } }
