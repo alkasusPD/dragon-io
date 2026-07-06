@@ -276,8 +276,10 @@ function randomItem(items){return items.length?items[Math.floor(Math.random()*it
 function composeUpgradeChoices(previous=[]){
   const available=getUpgradeOptions(),choices=[];
   const addFrom=pool=>{const fresh=pool.filter(option=>!choices.includes(option)&&!previous.includes(option.name));const option=randomItem(fresh.length?fresh:pool.filter(item=>!choices.includes(item)));if(option)choices.push(option);};
-  addFrom(available.filter(option=>option.kind==='current'));
-  addFrom(available.filter(option=>option.kind==='new'));
+  const current=available.filter(option=>option.kind==='current'),novel=available.filter(option=>option.kind==='new');
+  if(current.length&&novel.length)addFrom(Math.random()<.5?current:novel);
+  else addFrom(current.length?current:novel);
+  addFrom(novel);
   while(choices.length<Math.min(3,available.length))addFrom(available);
   return choices;
 }
