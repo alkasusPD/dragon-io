@@ -15,7 +15,7 @@ art.venora.src = 'assets/sprites/dragon-venora.png';
 art.enemy.src = 'assets/sprites/wyvern-blue.png';
 art.eliteWyvernParts.src = 'assets/sprites/elite-parts-wyvern.png';
 art.miniBoss.src = 'assets/sprites/wyvern-crimson-armored.png';
-art.bg.src = matchMedia('(pointer: coarse)').matches ? 'assets/backgrounds/sky-canyon-tall-v2.png' : 'assets/backgrounds/sky-canyon.png';
+art.bg.src = matchMedia('(pointer: coarse)').matches ? 'assets/backgrounds/sky-canyon-tall-v3.png' : 'assets/backgrounds/sky-canyon.png';
 art.shadow.src = 'assets/sprites/dragon-shadow.png';
 
 let state = 'title', last = 0, time = 0, animationTime = 0, score = 0, wave = 1, spawnClock = 0, bgY = 0, waveBanner = 0, bossBanner = 0, countdownTime = 0, countdownValue = 0;
@@ -300,7 +300,7 @@ function endGame(){releaseVirtualJoystick();state='over';ui.result.textContent=t
 
 function drawSprite(img,frame,x,y,size,rotation=0,alpha=1,hitFlash=0,scaleX=1,scaleY=1){if(!img.complete)return;const width=size*scaleX,height=size*scaleY;ctx.save();ctx.globalAlpha=alpha;ctx.translate(x,y);ctx.rotate(rotation);ctx.drawImage(img,frame*256,0,256,256,-width/2,-height/2,width,height);if(hitFlash>0){ctx.filter='brightness(0) invert(1)';ctx.globalAlpha=Math.min(.9,hitFlash*8)*alpha;ctx.drawImage(img,frame*256,0,256,256,-width/2,-height/2,width,height);}ctx.restore();}
 function drawMonsterVisual(e,frame,y,size,rotation){if(e.boss){drawSprite(art.miniBoss,frame,e.x,y,size,rotation,1,e.hitFlash||0);return;}const visual=monsterVisuals[e.monsterId]||monsterVisuals.wyvern;drawSprite(art[visual.baseArt],frame,e.x,y,size,rotation,1,e.hitFlash||0);if(e.elite&&visual.elitePartsArt)drawSprite(art[visual.elitePartsArt],frame,e.x,y,size,rotation,1,e.hitFlash||0);}
-function drawBackground(){canvas.parentElement.style.setProperty('--bg-scroll',`${bgY/W*100}vw`);if(art.bg.complete&&art.bg.naturalWidth){const tileHeight=Math.ceil(W*art.bg.naturalHeight/art.bg.naturalWidth);ctx.drawImage(art.bg,0,bgY-tileHeight,W,tileHeight+1);ctx.drawImage(art.bg,0,bgY-1,W,tileHeight+1);}else{ctx.fillStyle='#18b9d2';ctx.fillRect(0,0,W,H);}ctx.fillStyle='#7cecff12';ctx.fillRect(0,0,W,H);}
+function drawBackground(){if(art.bg.complete&&art.bg.naturalWidth){const tileHeight=Math.ceil(W*art.bg.naturalHeight/art.bg.naturalWidth);for(let y=bgY-tileHeight;y<H;y+=tileHeight)ctx.drawImage(art.bg,0,y,W,tileHeight+1);}else{ctx.fillStyle='#18b9d2';ctx.fillRect(0,0,W,H);}ctx.fillStyle='#7cecff12';ctx.fillRect(0,0,W,H);}
 function drawPlayerCharacter(){
   const pphase=animationTime*10,pframe=Math.floor(pphase)%12,pbob=Math.sin(pphase*Math.PI/6)*1.2;
   if(art.shadow.complete){
