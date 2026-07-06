@@ -65,16 +65,7 @@
       <button id="resume" data-i18n="pause.resume"></button>
     </section>
   </main>
-  <script>
-    if (matchMedia('(pointer: coarse)').matches) {
-      const gameCanvas = document.querySelector('#game');
-      const viewport = window.visualViewport;
-      const width = viewport?.width || innerWidth;
-      const height = viewport?.height || innerHeight;
-      gameCanvas.height = Math.round(gameCanvas.width * height / width);
-    }
-  </script>
-  <script src="strings.js?v=20260706-5"></script>
-  <script src="game.js?v=20260706-5"></script>
+  <script src="strings.js?v=20260706-6"></script>
+  <script src="game.js?v=20260706-6"></script>
 </body>
 </html>
