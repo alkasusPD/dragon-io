@@ -1,0 +1,220 @@
+const SUPPORTED_LOCALES = ['ko', 'en'];
+const requestedLocale = new URLSearchParams(location.search).get('lang') || navigator.language?.split('-')[0] || 'ko';
+const CURRENT_LOCALE = SUPPORTED_LOCALES.includes(requestedLocale) ? requestedLocale : 'ko';
+
+const STRING_TABLE = {
+  ko: {
+    'meta.documentTitle': 'DRAGON.IO',
+    'aria.gameCanvas': 'Sky Rogue 게임',
+    'aria.gameInfo': '게임 정보',
+    'aria.pause': '일시정지',
+    'aria.altitudeControl': '고도 전환',
+    'aria.ultimate': '궁극기. 게이지 {current}/{max}',
+    'aria.titleScreen': 'DRAGON.IO 타이틀 화면',
+    'aria.titleStart': '시작',
+    'aria.lobbyScreen': '챕터 로비 화면',
+    'aria.lobbyPlay': '게임 시작',
+    'aria.countdown': '게임 시작 카운트다운',
+
+    'hud.level': 'LV. {level}',
+    'hud.wave': 'WAVE {wave}',
+    'hud.score': '{score}',
+    'hud.health': '{current} / {max}',
+    'hud.wingLevel': 'LV.{level}',
+    'combat.damage': '-{amount}',
+    'combat.miniboss': '중간 보스',
+    'ultimate.label': '궁극기\n{percent}%',
+
+    'countdown.flight': "LET'S FLIGHT",
+    'upgrade.eyebrow': 'LEVEL UP',
+    'upgrade.title': '기체 강화 선택',
+    'upgrade.reroll': '재추첨 ({count})',
+    'aria.reroll': '스킬 선택지 재추첨. 남은 횟수 {count}회',
+    'upgrade.optionName': '{name} LV.{level}',
+    'upgrade.dragonOptionName': '[{side}] {name} LV.{level}',
+    'upgrade.optionDescription': '{effect} · 최대 LV.{max}',
+    'upgrade.dragonDescription': '{action} · {effect} · 최대 LV.{max}',
+    'upgrade.action.place': '배치',
+    'upgrade.action.levelUp': '레벨 증가',
+    'upgrade.action.replace': '교체 · 이번 플레이에서 달성한 슬롯 최고 레벨 유지',
+    'upgrade.side.left': '좌',
+    'upgrade.side.right': '우',
+
+    'upgrade.rapidFire.name': '고속 사격',
+    'upgrade.rapidFire.desc': '발사 간격 18% 감소',
+    'upgrade.dragonHeart.name': '용의 심장',
+    'upgrade.dragonHeart.desc': '공격력 +35%',
+    'upgrade.multishot.name': '갈라지는 불꽃',
+    'upgrade.multishot.desc': '동시 발사 +1',
+    'upgrade.speed.name': '바람의 날개',
+    'upgrade.speed.desc': '이동 속도 +16%',
+    'upgrade.maxHp.name': '고대의 비늘',
+    'upgrade.maxHp.desc': '최대 체력 +25',
+    'upgrade.heal.name': '재생의 숨결',
+    'upgrade.heal.desc': '체력 45 회복',
+
+    'dragon.ignis.name': '이그니스',
+    'dragon.ignis.skill': '관통 화염',
+    'dragon.ignis.effect': '관통 화염 · 레벨마다 피해량과 연사 속도 증가',
+    'dragon.lumina.name': '루미나',
+    'dragon.lumina.skill': '수호 방벽',
+    'dragon.lumina.effect': '수호 방벽 · 레벨마다 재충전 시간 감소',
+    'dragon.voltis.name': '볼티스',
+    'dragon.voltis.skill': '연쇄 번개',
+    'dragon.voltis.effect': '연쇄 번개 · 레벨마다 피해량과 연쇄 대상 증가',
+    'dragon.venora.name': '베노라',
+    'dragon.venora.skill': '맹독 구체',
+    'dragon.venora.effect': '맹독 구체 · 레벨마다 지속 피해량과 지속 시간 증가',
+
+    'result.eyebrow': 'MISSION FAILED',
+    'result.title': '비행 종료',
+    'result.summary': '생존 {seconds}초 · 점수 {score} · 웨이브 {wave}',
+    'result.backLobby': '로비로',
+    'result.restart': '재도전',
+    'pause.eyebrow': 'FLIGHT PAUSED',
+    'pause.title': '일시정지',
+    'pause.resume': '계속 비행',
+
+    'dive.ready': '하강',
+    'dive.active': '하강 중\n{seconds}초',
+    'dive.cooldown': '쿨타임\n{seconds}초',
+
+    // 아래 문자열은 현재 PNG 이미지에 직접 포함되어 있어 기록용이며 런타임 교체 대상이 아니다.
+    'embedded.title.logo': 'DRAGON.IO',
+    'embedded.title.tagline': 'SURVIVE. UPGRADE. DOMINATE.',
+    'embedded.title.start': 'START',
+    'embedded.lobby.playerName': 'Dragon Slayer',
+    'embedded.lobby.shop': 'Shop',
+    'embedded.lobby.pass': 'Pass',
+    'embedded.lobby.events': 'Events',
+    'embedded.lobby.chest': 'Chest',
+    'embedded.lobby.mail': 'Mail',
+    'embedded.lobby.quests': 'Quests',
+    'embedded.lobby.friends': 'Friends',
+    'embedded.lobby.ranking': 'Ranking',
+    'embedded.lobby.chapter': '10. 파멸의 땅',
+    'embedded.lobby.bestStage': '최고 스테이지 : 4/20',
+    'embedded.lobby.normalMode': 'Normal Mode',
+    'embedded.lobby.expedition': 'Expedition',
+    'embedded.lobby.play': 'Play',
+    'embedded.lobby.heroChest': 'Hero Chest',
+    'embedded.lobby.gearChest': 'Gear Chest',
+    'embedded.lobby.world': 'World'
+  },
+  en: {
+    'meta.documentTitle': 'DRAGON.IO',
+    'aria.gameCanvas': 'Sky Rogue game',
+    'aria.gameInfo': 'Game information',
+    'aria.pause': 'Pause',
+    'aria.altitudeControl': 'Altitude control',
+    'aria.ultimate': 'Ultimate. Gauge {current}/{max}',
+    'aria.titleScreen': 'DRAGON.IO title screen',
+    'aria.titleStart': 'Start',
+    'aria.lobbyScreen': 'Chapter lobby screen',
+    'aria.lobbyPlay': 'Start game',
+    'aria.countdown': 'Game start countdown',
+
+    'hud.level': 'LV. {level}',
+    'hud.wave': 'WAVE {wave}',
+    'hud.score': '{score}',
+    'hud.health': '{current} / {max}',
+    'hud.wingLevel': 'LV.{level}',
+    'combat.damage': '-{amount}',
+    'combat.miniboss': 'MINI BOSS',
+    'ultimate.label': 'ULT\n{percent}%',
+
+    'countdown.flight': "LET'S FLIGHT",
+    'upgrade.eyebrow': 'LEVEL UP',
+    'upgrade.title': 'Choose an Upgrade',
+    'upgrade.reroll': 'Reroll ({count})',
+    'aria.reroll': 'Reroll skill choices. {count} remaining',
+    'upgrade.optionName': '{name} LV.{level}',
+    'upgrade.dragonOptionName': '[{side}] {name} LV.{level}',
+    'upgrade.optionDescription': '{effect} · Max LV.{max}',
+    'upgrade.dragonDescription': '{action} · {effect} · Max LV.{max}',
+    'upgrade.action.place': 'Deploy',
+    'upgrade.action.levelUp': 'Level Up',
+    'upgrade.action.replace': 'Switch · Keeps the highest slot level reached this run',
+    'upgrade.side.left': 'L',
+    'upgrade.side.right': 'R',
+
+    'upgrade.rapidFire.name': 'Rapid Fire',
+    'upgrade.rapidFire.desc': 'Reduces firing interval by 18%',
+    'upgrade.dragonHeart.name': 'Dragon Heart',
+    'upgrade.dragonHeart.desc': 'Attack damage +35%',
+    'upgrade.multishot.name': 'Split Flame',
+    'upgrade.multishot.desc': 'Projectiles per shot +1',
+    'upgrade.speed.name': 'Wings of Wind',
+    'upgrade.speed.desc': 'Movement speed +16%',
+    'upgrade.maxHp.name': 'Ancient Scales',
+    'upgrade.maxHp.desc': 'Max HP +25',
+    'upgrade.heal.name': 'Regenerative Breath',
+    'upgrade.heal.desc': 'Restores 45 HP',
+
+    'dragon.ignis.name': 'Ignis',
+    'dragon.ignis.skill': 'Piercing Flame',
+    'dragon.ignis.effect': 'Piercing Flame · Damage and fire rate increase each level',
+    'dragon.lumina.name': 'Lumina',
+    'dragon.lumina.skill': 'Guardian Barrier',
+    'dragon.lumina.effect': 'Guardian Barrier · Recharge time decreases each level',
+    'dragon.voltis.name': 'Voltis',
+    'dragon.voltis.skill': 'Chain Lightning',
+    'dragon.voltis.effect': 'Chain Lightning · Damage and chain targets increase each level',
+    'dragon.venora.name': 'Venora',
+    'dragon.venora.skill': 'Venom Orb',
+    'dragon.venora.effect': 'Venom Orb · Damage over time and duration increase each level',
+
+    'result.eyebrow': 'MISSION FAILED',
+    'result.title': 'Flight Ended',
+    'result.summary': 'Survived {seconds}s · Score {score} · Wave {wave}',
+    'result.backLobby': 'Back to Lobby',
+    'result.restart': 'Retry',
+    'pause.eyebrow': 'FLIGHT PAUSED',
+    'pause.title': 'Paused',
+    'pause.resume': 'Resume Flight',
+
+    'dive.ready': 'Dive',
+    'dive.active': 'Diving\n{seconds}s',
+    'dive.cooldown': 'Cooldown\n{seconds}s',
+
+    // These strings are baked into PNG assets and are recorded here for localization tracking only.
+    'embedded.title.logo': 'DRAGON.IO',
+    'embedded.title.tagline': 'SURVIVE. UPGRADE. DOMINATE.',
+    'embedded.title.start': 'START',
+    'embedded.lobby.playerName': 'Dragon Slayer',
+    'embedded.lobby.shop': 'Shop',
+    'embedded.lobby.pass': 'Pass',
+    'embedded.lobby.events': 'Events',
+    'embedded.lobby.chest': 'Chest',
+    'embedded.lobby.mail': 'Mail',
+    'embedded.lobby.quests': 'Quests',
+    'embedded.lobby.friends': 'Friends',
+    'embedded.lobby.ranking': 'Ranking',
+    'embedded.lobby.chapter': '10. Land of Ruin',
+    'embedded.lobby.bestStage': 'Best Stage: 4/20',
+    'embedded.lobby.normalMode': 'Normal Mode',
+    'embedded.lobby.expedition': 'Expedition',
+    'embedded.lobby.play': 'Play',
+    'embedded.lobby.heroChest': 'Hero Chest',
+    'embedded.lobby.gearChest': 'Gear Chest',
+    'embedded.lobby.world': 'World'
+  }
+};
+
+function t(key, variables = {}) {
+  const template = STRING_TABLE[CURRENT_LOCALE]?.[key] ?? STRING_TABLE.ko[key] ?? key;
+  return template.replace(/\{(\w+)\}/g, (_, name) => variables[name] ?? `{${name}}`);
+}
+
+function applyLocalization(root = document) {
+  document.documentElement.lang = CURRENT_LOCALE;
+  document.title = t('meta.documentTitle');
+  root.querySelectorAll('[data-i18n]').forEach(element => { element.textContent = t(element.dataset.i18n); });
+  root.querySelectorAll('[data-i18n-aria-label]').forEach(element => { element.setAttribute('aria-label', t(element.dataset.i18nAriaLabel)); });
+}
+
+window.STRING_TABLE = STRING_TABLE;
+window.SUPPORTED_LOCALES = SUPPORTED_LOCALES;
+window.CURRENT_LOCALE = CURRENT_LOCALE;
+window.t = t;
+window.applyLocalization = applyLocalization;

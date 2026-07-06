@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#082d43" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="DRAGON.IO" />
+  <title>DRAGON.IO</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="shell">
+    <canvas id="game" width="540" height="960" data-i18n-aria-label="aria.gameCanvas"></canvas>
+    <div id="hud" class="game-hud" data-i18n-aria-label="aria.gameInfo">
+      <div class="hero-hud">
+        <div class="hero-portrait" aria-hidden="true"></div>
+        <div class="hero-bars">
+          <div class="hp-frame"><div id="hudHp" class="hp-fill"></div></div>
+          <div class="level-chip"><span class="level-gem">◆</span><span id="hudLevel"></span></div>
+        </div>
+      </div>
+      <div class="run-hud">
+        <div class="stat-chip"><span class="coin-icon">●</span><span id="hudScore">00000</span></div>
+        <div class="stat-chip"><span class="wave-icon">☠</span><span id="hudWave"></span></div>
+      </div>
+      <button id="pause" class="pause-button" type="button" data-i18n-aria-label="aria.pause"><span></span><span></span></button>
+    </div>
+    <button id="ultimate" class="ultimate-control" type="button">
+      <span class="ultimate-icon">✦</span>
+      <span class="ultimate-label"></span>
+    </button>
+    <section id="titleScreen" class="screen title-screen visible" data-i18n-aria-label="aria.titleScreen">
+      <button id="titleStart" class="screen-hitbox title-start" type="button" data-i18n-aria-label="aria.titleStart"></button>
+    </section>
+    <section id="lobbyScreen" class="screen lobby-screen" data-i18n-aria-label="aria.lobbyScreen">
+      <button id="lobbyPlay" class="screen-hitbox lobby-play" type="button" data-i18n-aria-label="aria.lobbyPlay"></button>
+    </section>
+    <section id="countdown" class="countdown" aria-live="assertive" data-i18n-aria-label="aria.countdown">
+      <p data-i18n="countdown.flight"></p>
+      <strong id="countdownNumber">3</strong>
+    </section>
+    <section id="upgrade" class="panel">
+      <p class="eyebrow" data-i18n="upgrade.eyebrow"></p>
+      <h2 data-i18n="upgrade.title"></h2>
+      <div id="cards"></div>
+      <button id="reroll" class="reroll-button" type="button"></button>
+    </section>
+    <section id="gameover" class="panel">
+      <p class="eyebrow" data-i18n="result.eyebrow"></p>
+      <h2 data-i18n="result.title"></h2>
+      <p id="result"></p>
+      <div class="result-actions">
+        <button id="backLobby" data-i18n="result.backLobby"></button>
+        <button id="restart" data-i18n="result.restart"></button>
+      </div>
+    </section>
+    <section id="pausePanel" class="panel">
+      <p class="eyebrow" data-i18n="pause.eyebrow"></p>
+      <h2 data-i18n="pause.title"></h2>
+      <button id="resume" data-i18n="pause.resume"></button>
+    </section>
+  </main>
+  <script src="strings.js?v=20260706-1"></script>
+  <script src="game.js?v=20260706-1"></script>
+</body>
+</html>

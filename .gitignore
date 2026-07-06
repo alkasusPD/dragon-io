@@ -1,0 +1,12 @@
+# Local development helpers
+.codex-local-server.cjs
+
+# Generated and temporary working files
+outputs/
+tmp/
+tmp_balance/
+
+# OS and editor metadata
+.DS_Store
+Thumbs.db
+*.log
