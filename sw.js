@@ -1,10 +1,10 @@
-const CACHE_NAME = 'dragon-io-mobile-v23';
+const CACHE_NAME = 'dragon-io-mobile-v24';
 const CORE_ASSETS = [
   './',
   './index.html',
   './style.css',
-  './strings.js?v=20260706-22',
-  './game.js?v=20260706-22',
+  './strings.js?v=20260706-23',
+  './game.js?v=20260706-23',
   './manifest.webmanifest',
   './assets/backgrounds/sky-canyon.png',
   './assets/backgrounds/sky-canyon-tall.png',
@@ -24,7 +24,7 @@ const CORE_ASSETS = [
   './assets/sprites/wyvern-crimson-armored.png',
   './assets/sprites/emerald-dreadwing-phase2.png',
   './assets/sprites/emerald-dreadwing-phase2-v2.png',
-  './assets/sprites/emerald-dreadwing-phase2-v4.png',
+  './assets/sprites/emerald-dreadwing-phase2-v5.png',
   './assets/icons/icon-192.png',
   './assets/icons/icon-512.png'
 ];
