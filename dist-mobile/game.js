@@ -16,7 +16,7 @@ art.enemy.src = 'assets/sprites/wyvern-blue.png';
 art.manta.src = 'assets/sprites/sky-manta.png';
 art.eliteWyvernParts.src = 'assets/sprites/elite-parts-wyvern.png';
 art.miniBoss.src = 'assets/sprites/wyvern-crimson-armored.png';
-art.chapterBoss.src = 'assets/sprites/emerald-dreadwing-phase2.png';
+art.chapterBoss.src = 'assets/sprites/emerald-dreadwing-phase2-v2.png';
 art.bg.src = matchMedia('(pointer: coarse)').matches ? 'assets/backgrounds/sky-canyon-tall-v3.png' : 'assets/backgrounds/sky-canyon.png';
 art.shadow.src = 'assets/sprites/dragon-shadow.png';
 
@@ -243,7 +243,8 @@ function update(dt){
       else{
         const patrolSpeed=72+wave*2,targetY=e.anchorY+Math.sin(time*.9+e.phase)*34;
         e.x+=e.patrolDir*patrolSpeed*dt;e.y+=(targetY-e.y)*Math.min(1,dt*2.2);
-        if(e.x<82){e.x=82;e.patrolDir=1;}else if(e.x>W-82){e.x=W-82;e.patrolDir=-1;}
+        const edge=e.chapterBoss?158:82;
+        if(e.x<edge){e.x=edge;e.patrolDir=1;}else if(e.x>W-edge){e.x=W-edge;e.patrolDir=-1;}
       }
     }else if(e.champion){
       if(e.y<e.anchorY)e.y=Math.min(e.anchorY,e.y+e.speed*dt);
