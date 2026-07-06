@@ -28,6 +28,7 @@ const dist2 = (a,b) => (a.x-b.x)**2 + (a.y-b.y)**2;
 const MAX_SKILL_LEVEL = 5;
 const WAVE_DURATION = 25;
 const MINIBOSS_WAVE_INTERVAL = 3;
+const PLAYER_MAX_Y = H * .72;
 const characterTypes = {
   default: { ultimate: { maxGauge:100, projectileCount:24, damageMultiplier:5, projectileSpeed:620 } }
 };
@@ -159,7 +160,7 @@ function updatePlayerMovement(dt){
   if(pointer.active){dx=pointer.dx;dy=pointer.dy;}
   const len=Math.hypot(dx,dy)||1;
   if(Math.abs(dx)+Math.abs(dy)>0){player.x+=dx/Math.max(1,len)*player.speed*dt;player.y+=dy/Math.max(1,len)*player.speed*dt;}
-  player.x=clamp(player.x,38,W-38);player.y=clamp(player.y,105,H-65);
+  player.x=clamp(player.x,38,W-38);player.y=clamp(player.y,105,PLAYER_MAX_Y);
 }
 
 function update(dt){
