@@ -21,7 +21,7 @@ art.shadow.src = 'assets/sprites/dragon-shadow.png';
 let state = 'title', last = 0, time = 0, animationTime = 0, score = 0, wave = 1, spawnClock = 0, bgY = 0, waveBanner = 0, bossBanner = 0, countdownTime = 0, countdownValue = 0;
 let player, bullets = [], enemies = [], enemyShots = [], lasers = [], particles = [], fireImpacts = [], lightningEffects = [], damageTexts = [], gems = [], essences = [];
 const keys = new Set();
-const pointer = { active:false, id:null, baseX:0, baseY:0, knobX:0, knobY:0, dx:0, dy:0, radius:72 };
+const pointer = { active:false, id:null, baseX:0, baseY:0, knobX:0, knobY:0, dx:0, dy:0, radius:56, deadzone:8 };
 const rand = (a,b) => a + Math.random() * (b-a);
 const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
 const dist2 = (a,b) => (a.x-b.x)**2 + (a.y-b.y)**2;
@@ -422,7 +422,7 @@ ultimateButton.addEventListener('pointerdown',e=>e.stopPropagation());
 ultimateButton.addEventListener('click',useUltimate);
 addEventListener('keydown',e=>keys.add(e.code));addEventListener('keyup',e=>keys.delete(e.code));
 function canvasPoint(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height};}
-function updateVirtualJoystick(e){const p=canvasPoint(e),vx=p.x-pointer.baseX,vy=p.y-pointer.baseY,distance=Math.hypot(vx,vy),travel=Math.min(pointer.radius,distance),nx=distance?vx/distance:0,ny=distance?vy/distance:0;pointer.knobX=pointer.baseX+nx*travel;pointer.knobY=pointer.baseY+ny*travel;const strength=travel/pointer.radius;pointer.dx=nx*strength;pointer.dy=ny*strength;}
+function updateVirtualJoystick(e){const p=canvasPoint(e),vx=p.x-pointer.baseX,vy=p.y-pointer.baseY,distance=Math.hypot(vx,vy),travel=Math.min(pointer.radius,distance),nx=distance?vx/distance:0,ny=distance?vy/distance:0;pointer.knobX=pointer.baseX+nx*travel;pointer.knobY=pointer.baseY+ny*travel;if(distance<=pointer.deadzone){pointer.dx=pointer.dy=0;}else{pointer.dx=nx;pointer.dy=ny;}}
 function releaseVirtualJoystick(e){if(!pointer.active||(e&&e.pointerId!==pointer.id))return;pointer.active=false;pointer.id=null;pointer.dx=pointer.dy=0;}
 canvas.addEventListener('pointerdown',e=>{if(state!=='play'||pointer.active)return;const p=canvasPoint(e);if(e.pointerType!=='mouse'&&(p.x>W*.62||p.y<H*.45))return;e.preventDefault();pointer.active=true;pointer.id=e.pointerId;pointer.baseX=pointer.knobX=p.x;pointer.baseY=pointer.knobY=p.y;pointer.dx=pointer.dy=0;canvas.setPointerCapture?.(e.pointerId);});
 canvas.addEventListener('pointermove',e=>{if(!pointer.active||e.pointerId!==pointer.id)return;e.preventDefault();updateVirtualJoystick(e);});
