@@ -44,6 +44,7 @@ const monsterVisuals = {
 };
 const wingSlotOffsets=[[-62,-25],[62,-25],[-72,35],[72,35]];
 function pointSegmentDistance2(px,py,x1,y1,x2,y2){const vx=x2-x1,vy=y2-y1,wx=px-x1,wy=py-y1,c1=vx*wx+vy*wy;if(c1<=0)return (px-x1)**2+(py-y1)**2;const c2=vx*vx+vy*vy;if(c2<=c1)return (px-x2)**2+(py-y2)**2;const t=c1/c2,qx=x1+t*vx,qy=y1+t*vy;return (px-qx)**2+(py-qy)**2;}
+function segmentHitsEllipse(cx,cy,x1,y1,x2,y2,rx,ry){return pointSegmentDistance2(0,0,(x1-cx)/rx,(y1-cy)/ry,(x2-cx)/rx,(y2-cy)/ry)<1;}
 
 function reset() {
   player = { characterId:'default', x:W/2, y:H*.68, r:18, speed:285, hp:100, maxHp:100, fire:.31, shot:0, damage:18, multishot:1, level:1, xp:0, need:35, inv:0, altitude:1, rerolls:2, ultimateGauge:0, ultimateMax:characterTypes.default.ultimate.maxGauge,
@@ -235,7 +236,7 @@ function update(dt){
   damageTexts.forEach(text=>{text.y-=32*dt;text.life-=dt;});
   gems.forEach(g=>{const d=Math.hypot(player.x-g.x,player.y-g.y);if(d<135){g.x+=(player.x-g.x)*dt*7;g.y+=(player.y-g.y)*dt*7;}else g.y+=38*dt;});
   essences.forEach(item=>{const d=Math.hypot(player.x-item.x,player.y-item.y),range=item.refined?190:150;if(d<range){item.x+=(player.x-item.x)*dt*8;item.y+=(player.y-item.y)*dt*8;}else item.y+=32*dt;});
-  for(const b of bullets)for(const e of enemies)if(!b.dead&&!e.dead&&(!b.hitEnemies||!b.hitEnemies.has(e))&&pointSegmentDistance2(e.x,e.y,b.prevX??b.x,b.prevY??b.y,b.x,b.y)<(b.r+e.r)**2){if(b.hitEnemies)b.hitEnemies.add(e);if(b.pierce>0)b.pierce--;else b.dead=true;e.hp-=b.damage;e.hitFlash=.11;showDamage(e.x,e.y,b.damage);if(b.wingmanType==='ignis')ignisImpact(b.x,b.y);else if(b.wingmanType==='venora'){e.poisonTime=Math.max(e.poisonTime||0,b.poisonDuration);e.poisonDps=Math.max(e.poisonDps||0,b.poisonDps);e.poisonTextClock=.5;burst(b.x,b.y,'#91ff3f',12,125);}else burst(b.x,b.y,'#ffd267',4,85);if(e.hp<=0)defeatEnemy(e);}
+  for(const b of bullets)for(const e of enemies)if(!b.dead&&!e.dead&&(!b.hitEnemies||!b.hitEnemies.has(e))&&segmentHitsEllipse(e.x,e.y,b.prevX??b.x,b.prevY??b.y,b.x,b.y,e.r*1.55+b.r,e.r*1.12+b.r)){if(b.hitEnemies)b.hitEnemies.add(e);if(b.pierce>0)b.pierce--;else b.dead=true;e.hp-=b.damage;e.hitFlash=.11;showDamage(e.x,e.y,b.damage);if(b.wingmanType==='ignis')ignisImpact(b.x,b.y);else if(b.wingmanType==='venora'){e.poisonTime=Math.max(e.poisonTime||0,b.poisonDuration);e.poisonDps=Math.max(e.poisonDps||0,b.poisonDps);e.poisonTextClock=.5;burst(b.x,b.y,'#91ff3f',12,125);}else burst(b.x,b.y,'#ffd267',4,85);if(e.hp<=0)defeatEnemy(e);}
   for(const e of enemies)if(!e.dead&&dist2(player,e)<(player.r+e.r)**2){e.dead=true;if(player.inv<=0&&damagePlayer(e.damage,.75,'#fff'))return;}
   if(player.inv<=0){
     for(const s of enemyShots)if(!s.dead&&dist2(player,s)<(player.r+s.r)**2){s.dead=true;if(damagePlayer(s.damage,.65,'#ff8df3'))return;break;}
