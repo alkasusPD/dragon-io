@@ -1,10 +1,10 @@
-const CACHE_NAME = 'dragon-io-mobile-v21';
+const CACHE_NAME = 'dragon-io-mobile-v22';
 const CORE_ASSETS = [
   './',
   './index.html',
   './style.css',
-  './strings.js?v=20260706-20',
-  './game.js?v=20260706-20',
+  './strings.js?v=20260706-21',
+  './game.js?v=20260706-21',
   './manifest.webmanifest',
   './assets/backgrounds/sky-canyon.png',
   './assets/backgrounds/sky-canyon-tall.png',
