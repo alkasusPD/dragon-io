@@ -29,6 +29,7 @@ const MAX_SKILL_LEVEL = 5;
 const WAVE_DURATION = 25;
 const MINIBOSS_WAVE_INTERVAL = 3;
 const PLAYER_MAX_Y = H * .72;
+const TOUCH_SPEED_MULTIPLIER = 1.4;
 const characterTypes = {
   default: { ultimate: { maxGauge:100, projectileCount:24, damageMultiplier:5, projectileSpeed:620 } }
 };
@@ -159,7 +160,8 @@ function updatePlayerMovement(dt){
   let dx=(keys.has('ArrowRight')||keys.has('KeyD')?1:0)-(keys.has('ArrowLeft')||keys.has('KeyA')?1:0),dy=(keys.has('ArrowDown')||keys.has('KeyS')?1:0)-(keys.has('ArrowUp')||keys.has('KeyW')?1:0);
   if(pointer.active){dx=pointer.dx;dy=pointer.dy;}
   const len=Math.hypot(dx,dy)||1;
-  if(Math.abs(dx)+Math.abs(dy)>0){player.x+=dx/Math.max(1,len)*player.speed*dt;player.y+=dy/Math.max(1,len)*player.speed*dt;}
+  const speed=player.speed*(pointer.active?TOUCH_SPEED_MULTIPLIER:1);
+  if(Math.abs(dx)+Math.abs(dy)>0){player.x+=dx/Math.max(1,len)*speed*dt;player.y+=dy/Math.max(1,len)*speed*dt;}
   player.x=clamp(player.x,38,W-38);player.y=clamp(player.y,105,PLAYER_MAX_Y);
 }
 
@@ -424,7 +426,9 @@ addEventListener('keydown',e=>keys.add(e.code));addEventListener('keyup',e=>keys
 function canvasPoint(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height};}
 function updateVirtualJoystick(e){const p=canvasPoint(e),vx=p.x-pointer.baseX,vy=p.y-pointer.baseY,distance=Math.hypot(vx,vy),travel=Math.min(pointer.radius,distance),nx=distance?vx/distance:0,ny=distance?vy/distance:0;pointer.knobX=pointer.baseX+nx*travel;pointer.knobY=pointer.baseY+ny*travel;if(distance<=pointer.deadzone){pointer.dx=pointer.dy=0;}else{pointer.dx=nx;pointer.dy=ny;}}
 function releaseVirtualJoystick(e){if(!pointer.active||(e&&e.pointerId!==pointer.id))return;pointer.active=false;pointer.id=null;pointer.dx=pointer.dy=0;}
-canvas.addEventListener('pointerdown',e=>{if(state!=='play'||pointer.active)return;const p=canvasPoint(e);if(e.pointerType!=='mouse'&&(p.x>W*.62||p.y<H*.45))return;e.preventDefault();pointer.active=true;pointer.id=e.pointerId;pointer.baseX=pointer.knobX=p.x;pointer.baseY=pointer.knobY=p.y;pointer.dx=pointer.dy=0;canvas.setPointerCapture?.(e.pointerId);});
-canvas.addEventListener('pointermove',e=>{if(!pointer.active||e.pointerId!==pointer.id)return;e.preventDefault();updateVirtualJoystick(e);});
+canvas.addEventListener('pointerdown',e=>{if(state!=='play'||pointer.active)return;e.preventDefault();const p=canvasPoint(e);pointer.active=true;pointer.id=e.pointerId;pointer.baseX=pointer.knobX=p.x;pointer.baseY=pointer.knobY=p.y;pointer.dx=pointer.dy=0;canvas.setPointerCapture?.(e.pointerId);});
+function handlePointerMove(e){if(!pointer.active||e.pointerId!==pointer.id)return;e.preventDefault();const latest=e.getCoalescedEvents?.().at(-1)||e;updateVirtualJoystick(latest);}
+canvas.addEventListener('pointermove',handlePointerMove);
+canvas.addEventListener('pointerrawupdate',handlePointerMove);
 canvas.addEventListener('pointerup',releaseVirtualJoystick);canvas.addEventListener('pointercancel',releaseVirtualJoystick);canvas.addEventListener('lostpointercapture',releaseVirtualJoystick);
 if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
