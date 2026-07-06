@@ -23,6 +23,7 @@ const STRING_TABLE = {
     'hud.wingLevel': 'LV.{level}',
     'combat.damage': '-{amount}',
     'combat.miniboss': '중간 보스',
+    'combat.champion': '챔피언 · 하늘 가오리',
     'combat.chapterBoss': '챕터 보스 · 에메랄드 드레드윙',
     'ultimate.label': '궁극기\n{percent}%',
 
@@ -125,6 +126,7 @@ const STRING_TABLE = {
     'hud.wingLevel': 'LV.{level}',
     'combat.damage': '-{amount}',
     'combat.miniboss': 'MINI BOSS',
+    'combat.champion': 'CHAMPION · SKY MANTA',
     'combat.chapterBoss': 'CHAPTER BOSS · EMERALD DREADWING',
     'ultimate.label': 'ULT\n{percent}%',
 
