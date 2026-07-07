@@ -58,12 +58,13 @@ function pointSegmentDistance2(px,py,x1,y1,x2,y2){const vx=x2-x1,vy=y2-y1,wx=px-
 function segmentHitsEllipse(cx,cy,x1,y1,x2,y2,rx,ry){return pointSegmentDistance2(0,0,(x1-cx)/rx,(y1-cy)/ry,(x2-cx)/rx,(y2-cy)/ry)<1;}
 
 function reset() {
+  clearMovementInput();
   player = { characterId:'default', x:W/2, y:H*.68, r:18, speed:285, hp:100, maxHp:100, fire:.31, shot:0, damage:18, multishot:1, level:1, xp:0, need:35, inv:0, altitude:1, rerolls:2, ultimateGauge:0, ultimateMax:characterTypes.default.ultimate.maxGauge,
     upgradeLevels: { fire:0, damage:0, multishot:0, speed:0, maxHp:0, heal:0 },
     dragonLevels: { ignis:0, lumina:0, voltis:0, venora:0 },
     wingSlots: Array.from({length:4},()=>({type:null,shot:0,shield:0,cooldown:0,rotation:0,targetRotation:0}))
   };
-  bullets=[]; enemies=[]; enemyShots=[]; lasers=[]; particles=[]; fireImpacts=[]; lightningEffects=[]; damageTexts=[]; gems=[]; essences=[]; time=animationTime=score=spawnClock=bgY=0; wave=1; waveBanner=2.4; bossBanner=0; countdownTime=3; countdownValue=3; state='countdown';pointer.active=false;pointer.id=null;pointer.dx=pointer.dy=0;
+  bullets=[]; enemies=[]; enemyShots=[]; lasers=[]; particles=[]; fireImpacts=[]; lightningEffects=[]; damageTexts=[]; gems=[]; essences=[]; time=animationTime=score=spawnClock=bgY=0; wave=1; waveBanner=2.4; bossBanner=0; countdownTime=3; countdownValue=3; state='countdown';
   [ui.title,ui.lobby,ui.upgrade,ui.over,ui.pause].forEach(x=>x.classList.remove('visible'));
   hud.root.classList.add('visible');
   ultimateButton.classList.remove('visible');
@@ -214,7 +215,7 @@ function update(dt){
       ui.countdownNumber.style.animation='';
     }
     if(countdownTime<=0){
-      state='play';
+      clearMovementInput();state='play';
       ui.countdown.classList.remove('visible');
       ultimateButton.classList.add('visible');
       last=performance.now();
@@ -511,16 +512,17 @@ document.querySelector('#titleStart').onclick=()=>{state='lobby';ui.title.classL
 document.querySelector('#lobbyPlay').onclick=reset;
 document.querySelector('#restart').onclick=reset;
 ui.reroll.onclick=()=>{if(state!=='upgrade'||player.rerolls<=0)return;const previous=JSON.parse(ui.reroll.dataset.choices||'[]');player.rerolls--;renderUpgradeChoices(previous);};
-document.querySelector('#backLobby').onclick=()=>{releaseVirtualJoystick();state='lobby';ui.over.classList.remove('visible');ui.lobby.classList.add('visible');hud.root.classList.remove('visible');ultimateButton.classList.remove('visible');};
-document.querySelector('#pause').onclick=()=>{if(state==='play'){releaseVirtualJoystick();state='paused';ui.pause.classList.add('visible');ultimateButton.classList.remove('visible');}};
-document.querySelector('#resume').onclick=()=>{if(state==='paused'){state='play';ui.pause.classList.remove('visible');ultimateButton.classList.add('visible');last=performance.now();}};
+document.querySelector('#backLobby').onclick=()=>{clearMovementInput();state='lobby';ui.over.classList.remove('visible');ui.lobby.classList.add('visible');hud.root.classList.remove('visible');ultimateButton.classList.remove('visible');};
+document.querySelector('#pause').onclick=()=>{if(state==='play'){clearMovementInput();state='paused';ui.pause.classList.add('visible');ultimateButton.classList.remove('visible');}};
+document.querySelector('#resume').onclick=()=>{if(state==='paused'){clearMovementInput();state='play';ui.pause.classList.remove('visible');ultimateButton.classList.add('visible');last=performance.now();}};
 document.querySelector('#skipBoss').onclick=jumpToChapterBoss;
 ultimateButton.addEventListener('pointerdown',e=>e.stopPropagation());
 ultimateButton.addEventListener('click',useUltimate);
-addEventListener('keydown',e=>keys.add(e.code));addEventListener('keyup',e=>keys.delete(e.code));
+addEventListener('keydown',e=>keys.add(e.code));addEventListener('keyup',e=>keys.delete(e.code));addEventListener('blur',clearMovementInput);document.addEventListener('visibilitychange',()=>{if(document.hidden)clearMovementInput();});
 function canvasPoint(e){const r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*W/r.width,y:(e.clientY-r.top)*H/r.height};}
 function updateVirtualJoystick(e){const p=canvasPoint(e),vx=p.x-pointer.baseX,vy=p.y-pointer.baseY,distance=Math.hypot(vx,vy),travel=Math.min(pointer.radius,distance),nx=distance?vx/distance:0,ny=distance?vy/distance:0;pointer.knobX=pointer.baseX+nx*travel;pointer.knobY=pointer.baseY+ny*travel;if(distance<=pointer.deadzone){pointer.dx=pointer.dy=0;}else{pointer.dx=nx;pointer.dy=ny;}}
 function releaseVirtualJoystick(e){if(!pointer.active||(e&&e.pointerId!==pointer.id))return;pointer.active=false;pointer.id=null;pointer.dx=pointer.dy=0;}
+function clearMovementInput(){keys.clear();pointer.active=false;pointer.id=null;pointer.dx=pointer.dy=0;}
 canvas.addEventListener('pointerdown',e=>{if(state!=='play'||pointer.active)return;e.preventDefault();const p=canvasPoint(e);pointer.active=true;pointer.id=e.pointerId;pointer.baseX=pointer.knobX=p.x;pointer.baseY=pointer.knobY=p.y;pointer.dx=pointer.dy=0;canvas.setPointerCapture?.(e.pointerId);});
 function handlePointerMove(e){if(!pointer.active||e.pointerId!==pointer.id)return;e.preventDefault();const latest=e.getCoalescedEvents?.().at(-1)||e;updateVirtualJoystick(latest);}
 canvas.addEventListener('pointermove',handlePointerMove);
