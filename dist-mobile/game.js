@@ -4,7 +4,7 @@ const ctx = canvas.getContext('2d');
 const W = canvas.width, H = canvas.height;
 const ui = { title: document.querySelector('#titleScreen'), lobby: document.querySelector('#lobbyScreen'), countdown: document.querySelector('#countdown'), countdownNumber: document.querySelector('#countdownNumber'), upgrade: document.querySelector('#upgrade'), reroll: document.querySelector('#reroll'), over: document.querySelector('#gameover'), pause: document.querySelector('#pausePanel'), result: document.querySelector('#result'), cards: document.querySelector('#cards') };
 const ultimateButton = document.querySelector('#ultimate');
-const hud={root:document.querySelector('#hud'),hp:document.querySelector('#hudHp'),level:document.querySelector('#hudLevel'),score:document.querySelector('#hudScore'),wave:document.querySelector('#hudWave')};
+const hud={root:document.querySelector('#hud'),hp:document.querySelector('#hudHp'),level:document.querySelector('#hudLevel'),score:document.querySelector('#hudScore'),wave:document.querySelector('#hudWave'),progress:document.querySelector('#waveProgress')};
 
 const art = { player: new Image(), ignis: new Image(), lumina: new Image(), voltis: new Image(), venora: new Image(), enemy: new Image(), manta: new Image(), eliteWyvernParts: new Image(), miniBoss: new Image(), chapterBoss: new Image(), bg: new Image(), shadow: new Image() };
 art.player.src = 'assets/sprites/dragon-red.png';
@@ -31,6 +31,11 @@ const MAX_SKILL_LEVEL = 5;
 const WAVE_DURATION = 25;
 const MINIBOSS_WAVE_INTERVAL = 3;
 const CHAPTER_BOSS_WAVE = 10;
+const WAVE_PROGRESS_STEPS=[
+  {wave:1,label:'1'},{wave:2,label:'2'},{wave:3,label:'3'},{wave:3,label:'☠',boss:true},
+  {wave:4,label:'4'},{wave:5,label:'5'},{wave:6,label:'6'},{wave:6,label:'☠',boss:true},
+  {wave:7,label:'7'},{wave:8,label:'8'},{wave:9,label:'9'},{wave:10,label:'🐉',boss:true,final:true}
+];
 const PLAYER_MAX_Y = H * .72;
 const TOUCH_SPEED_MULTIPLIER = 1.4;
 const characterTypes = {
@@ -278,7 +283,9 @@ function update(dt){
   bullets=bullets.filter(b=>!b.dead&&b.y>-40&&b.x>-30&&b.x<W+30);enemies=enemies.filter(e=>!e.dead&&e.y<H+90);enemyShots=enemyShots.filter(s=>!s.dead&&s.life>0&&s.x>-50&&s.x<W+50&&s.y>-80&&s.y<H+80);lasers=lasers.filter(l=>!l.source.dead&&l.age<l.warn+l.active);gems=gems.filter(g=>!g.dead&&g.y<H+30);essences=essences.filter(item=>!item.dead&&item.y<H+40);particles=particles.filter(p=>p.life>0);fireImpacts=fireImpacts.filter(impact=>impact.life>0);lightningEffects=lightningEffects.filter(effect=>effect.life>0);damageTexts=damageTexts.filter(text=>text.life>0);
 }
 
-function updateHud(){if(!player)return;hud.hp.style.width=`${Math.max(0,player.hp/player.maxHp)*100}%`;hud.level.textContent=t('hud.level',{level:player.level});hud.score.textContent=t('hud.score',{score:score.toString().padStart(5,'0')});hud.wave.textContent=t('hud.wave',{wave});}
+function buildWaveProgress(){if(!hud.progress||hud.progress.dataset.ready)return;WAVE_PROGRESS_STEPS.forEach((step,index)=>{const node=document.createElement('span');node.className=`wave-progress-node${step.boss?' boss':''}${step.final?' final':''}`;node.textContent=step.label;node.dataset.wave=step.wave;node.dataset.kind=step.final?'final':step.boss?'boss':'wave';hud.progress.appendChild(node);if(index<WAVE_PROGRESS_STEPS.length-1){const link=document.createElement('span');link.className='wave-progress-link';hud.progress.appendChild(link);}});hud.progress.dataset.ready='1';}
+function updateWaveProgress(){if(!hud.progress)return;buildWaveProgress();const miniBossActive=enemies.some(e=>!e.dead&&e.type==='miniboss'),chapterBossActive=enemies.some(e=>!e.dead&&e.chapterBoss);let lastDoneIndex=-1;const nodes=[...hud.progress.querySelectorAll('.wave-progress-node')];nodes.forEach((node,index)=>{const step=WAVE_PROGRESS_STEPS[index],isMini=step.boss&&!step.final,isFinal=!!step.final;let active=false,complete=false;if(isFinal){active=wave>=CHAPTER_BOSS_WAVE;complete=false;}else if(isMini){active=wave===step.wave&&miniBossActive;complete=wave>step.wave;}else{active=wave===step.wave&&!(wave%MINIBOSS_WAVE_INTERVAL===0&&miniBossActive);complete=wave>step.wave;}node.classList.toggle('active',active);node.classList.toggle('complete',complete);if(active||complete)lastDoneIndex=index;});const links=[...hud.progress.querySelectorAll('.wave-progress-link')];links.forEach((link,index)=>link.classList.toggle('complete',index<lastDoneIndex));}
+function updateHud(){if(!player)return;hud.hp.style.width=`${Math.max(0,player.hp/player.maxHp)*100}%`;hud.level.textContent=t('hud.level',{level:player.level});hud.score.textContent=t('hud.score',{score:score.toString().padStart(5,'0')});hud.wave.textContent=t('hud.wave',{wave});updateWaveProgress();}
 
 const baseUpgrades=[
   {key:'fire',nameKey:'upgrade.rapidFire.name',descKey:'upgrade.rapidFire.desc',apply:()=>player.fire=Math.max(.085,player.fire*.82)},
