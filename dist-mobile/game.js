@@ -16,7 +16,7 @@ art.enemy.src = 'assets/sprites/wyvern-blue.png';
 art.manta.src = 'assets/sprites/sky-manta.png';
 art.eliteWyvernParts.src = 'assets/sprites/elite-parts-wyvern.png';
 art.miniBoss.src = 'assets/sprites/wyvern-crimson-armored.png';
-art.chapterBoss.src = 'assets/sprites/emerald-dreadwing-phase2-v6.png';
+art.chapterBoss.src = 'assets/sprites/emerald-dreadwing-phase2-v7.png';
 art.bg.src = matchMedia('(pointer: coarse)').matches ? 'assets/backgrounds/sky-canyon-tall-v3.png' : 'assets/backgrounds/sky-canyon.png';
 art.shadow.src = 'assets/sprites/dragon-shadow.png';
 
