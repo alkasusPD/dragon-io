@@ -460,21 +460,21 @@ function drawJaggedEnergy(radius, seed, wobble=.12){
 function drawEnemyShotCharge(s){
   if(s.type!=='chapterHoming'||s.charge<=0)return;
   const chargeProgress=1-s.charge/.9,pulse=1+Math.sin(animationTime*16)*.06,colors=enemyShotColors(s);
-  ctx.save();ctx.globalCompositeOperation='lighter';ctx.strokeStyle=colors.trail;ctx.shadowBlur=11;ctx.shadowColor=colors.mid;ctx.globalAlpha=.24+chargeProgress*.34;ctx.lineWidth=1.6+chargeProgress*1.6;
+  ctx.save();ctx.globalCompositeOperation='lighter';ctx.strokeStyle=colors.trail;ctx.shadowBlur=11;ctx.shadowColor=colors.mid;ctx.globalAlpha=.36+chargeProgress*.42;ctx.lineWidth=1.6+chargeProgress*1.6;
   ctx.beginPath();ctx.moveTo(s.source?.x??s.x,s.source?.y+18??s.y);ctx.lineTo(s.x,s.y);ctx.stroke();
   ctx.translate(s.x,s.y);ctx.rotate(animationTime*(s.side||1)*1.8);
-  for(let claw=0;claw<5;claw++){const a=claw*Math.PI*2/5+Math.sin(animationTime*5+claw)*.08,r=s.r+11+chargeProgress*8;ctx.save();ctx.rotate(a);ctx.strokeStyle=claw%2?colors.edge:colors.mid;ctx.lineWidth=1.8;ctx.globalAlpha=.22+chargeProgress*.3;ctx.beginPath();ctx.moveTo(r*.35,-3*pulse);ctx.lineTo(r,0);ctx.lineTo(r*.45,5*pulse);ctx.stroke();ctx.restore();}
-  const core=ctx.createRadialGradient(-3,-3,1,0,0,s.r+8);core.addColorStop(0,colors.core);core.addColorStop(.45,colors.mid);core.addColorStop(1,'#3a0d6200');ctx.fillStyle=core;ctx.globalAlpha=.28+chargeProgress*.32;drawJaggedEnergy((s.r+7)*pulse,animationTime+s.x*.03,.18);ctx.fill();ctx.restore();
+  for(let claw=0;claw<5;claw++){const a=claw*Math.PI*2/5+Math.sin(animationTime*5+claw)*.08,r=s.r+11+chargeProgress*8;ctx.save();ctx.rotate(a);ctx.strokeStyle=claw%2?colors.edge:colors.mid;ctx.lineWidth=1.8;ctx.globalAlpha=.34+chargeProgress*.38;ctx.beginPath();ctx.moveTo(r*.35,-3*pulse);ctx.lineTo(r,0);ctx.lineTo(r*.45,5*pulse);ctx.stroke();ctx.restore();}
+  const core=ctx.createRadialGradient(-3,-3,1,0,0,s.r+8);core.addColorStop(0,colors.core);core.addColorStop(.45,colors.mid);core.addColorStop(1,'#3a0d6200');ctx.fillStyle=core;ctx.globalAlpha=.46+chargeProgress*.38;drawJaggedEnergy((s.r+7)*pulse,animationTime+s.x*.03,.18);ctx.fill();ctx.restore();
 }
 function drawEnemyShot(s){
   const colors=enemyShotColors(s),homing=s.type==='chapterHoming',chapter=homing||s.type==='chapterEnergy',enhanced=s.type==='enhancedOrb',angle=Math.atan2(s.vy||1,s.vx||0),speed=Math.hypot(s.vx||0,s.vy||0),seed=(s.x*.073+s.y*.041+(s.age||0)*2.7),radius=s.r*(homing?1.1:chapter?1.05:1);
   ctx.save();ctx.translate(s.x,s.y);ctx.rotate(angle);ctx.globalCompositeOperation='lighter';ctx.shadowBlur=homing?28:chapter?21:enhanced?15:10;ctx.shadowColor=colors.mid;
-  for(let i=0;i<3;i++){const trail=(radius*(1.05+i*.45))*(homing?1.2:1),back=-radius*(1.1+i*.7)-Math.min(18,speed*.035),alpha=.2-i*.055;ctx.globalAlpha=alpha;ctx.fillStyle=i%2?colors.dark:colors.trail;ctx.beginPath();ctx.moveTo(-radius*.25,0);ctx.quadraticCurveTo(back,-trail*.42,-back*.55,0);ctx.quadraticCurveTo(back,trail*.36,-radius*.25,0);ctx.fill();}
-  ctx.globalAlpha=.78;const outer=ctx.createRadialGradient(-radius*.18,-radius*.18,1,0,0,radius*1.2);outer.addColorStop(0,colors.core);outer.addColorStop(.32,colors.mid);outer.addColorStop(.74,colors.dark);outer.addColorStop(1,'#10021a');ctx.fillStyle=outer;drawJaggedEnergy(radius*(1+Math.sin((s.age||0)*10)*.035),seed,homing?.28:.2);ctx.fill();
-  ctx.globalAlpha=.7;ctx.strokeStyle=colors.edge;ctx.lineWidth=chapter?1.8:1.35;drawJaggedEnergy(radius*(chapter?1.18:1.1),seed+3.2,homing?.34:.25);ctx.stroke();
-  ctx.globalAlpha=.56;ctx.fillStyle=colors.core;ctx.beginPath();ctx.ellipse(-radius*.22,-radius*.18,radius*.2,radius*.11,-.45,0,Math.PI*2);ctx.fill();
-  ctx.globalAlpha=.42;ctx.fillStyle=colors.edge;for(let shard=0;shard<(chapter?7:4);shard++){const a=shard*Math.PI*2/(chapter?7:4)+animationTime*(homing?-1.6:1.1),r=radius*(1.1+(shard%3)*.12),len=homing?8:5;ctx.save();ctx.rotate(a);ctx.translate(r,0);ctx.beginPath();ctx.moveTo(len,0);ctx.lineTo(-len*.35,Math.max(2,radius*.16));ctx.lineTo(-len*.18,-Math.max(2,radius*.14));ctx.closePath();ctx.fill();ctx.restore();}
-  if(homing){ctx.globalAlpha=.12;ctx.fillStyle=colors.mid;drawJaggedEnergy(radius*1.9+Math.sin((s.age||0)*7)*3,seed+8,.32);ctx.fill();}
+  for(let i=0;i<3;i++){const trail=(radius*(1.05+i*.45))*(homing?1.2:1),back=-radius*(1.1+i*.7)-Math.min(18,speed*.035),alpha=.32-i*.07;ctx.globalAlpha=alpha;ctx.fillStyle=i%2?colors.dark:colors.trail;ctx.beginPath();ctx.moveTo(-radius*.25,0);ctx.quadraticCurveTo(back,-trail*.42,-back*.55,0);ctx.quadraticCurveTo(back,trail*.36,-radius*.25,0);ctx.fill();}
+  ctx.globalAlpha=.96;const outer=ctx.createRadialGradient(-radius*.18,-radius*.18,1,0,0,radius*1.2);outer.addColorStop(0,colors.core);outer.addColorStop(.32,colors.mid);outer.addColorStop(.74,colors.dark);outer.addColorStop(1,'#10021a');ctx.fillStyle=outer;drawJaggedEnergy(radius*(1+Math.sin((s.age||0)*10)*.035),seed,homing?.28:.2);ctx.fill();
+  ctx.globalAlpha=.88;ctx.strokeStyle=colors.edge;ctx.lineWidth=chapter?1.8:1.35;drawJaggedEnergy(radius*(chapter?1.18:1.1),seed+3.2,homing?.34:.25);ctx.stroke();
+  ctx.globalAlpha=.76;ctx.fillStyle=colors.core;ctx.beginPath();ctx.ellipse(-radius*.22,-radius*.18,radius*.2,radius*.11,-.45,0,Math.PI*2);ctx.fill();
+  ctx.globalAlpha=.6;ctx.fillStyle=colors.edge;for(let shard=0;shard<(chapter?7:4);shard++){const a=shard*Math.PI*2/(chapter?7:4)+animationTime*(homing?-1.6:1.1),r=radius*(1.1+(shard%3)*.12),len=homing?8:5;ctx.save();ctx.rotate(a);ctx.translate(r,0);ctx.beginPath();ctx.moveTo(len,0);ctx.lineTo(-len*.35,Math.max(2,radius*.16));ctx.lineTo(-len*.18,-Math.max(2,radius*.14));ctx.closePath();ctx.fill();ctx.restore();}
+  if(homing){ctx.globalAlpha=.2;ctx.fillStyle=colors.mid;drawJaggedEnergy(radius*1.9+Math.sin((s.age||0)*7)*3,seed+8,.32);ctx.fill();}
   ctx.restore();
 }
 function draw(){
