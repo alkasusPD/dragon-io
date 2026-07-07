@@ -85,7 +85,7 @@ function spawnMiniBoss(){
 }
 function spawnChampion(){
   const tough=1+time/65,hp=220*tough;
-  enemies.push({x:rand(105,W-105),y:-115,r:34,hp,max:hp,speed:52,sway:.9,phase:rand(0,7),damage:32,type:'champion',monsterId:'manta',champion:true,anim:rand(0,12),attack:1.25,pattern:'enhancedOrb',rotation:0,targetRotation:0,anchorY:230,patrolDir:Math.random()<.5?-1:1});
+  enemies.push({x:rand(105,W-105),y:-115,r:34,hp,max:hp,speed:52,sway:.9,phase:rand(0,7),damage:32,type:'champion',monsterId:'manta',champion:true,anim:rand(0,12),attack:1.25,pattern:'enhancedOrb',rotation:Math.PI,targetRotation:Math.PI,anchorY:230,patrolDir:Math.random()<.5?-1:1});
 }
 function spawnChapterBoss(){
   const tough=1+time/90,hp=1800*tough;
@@ -259,7 +259,7 @@ function update(dt){
     e.anim+=dt*12;e.attack-=dt;
     if(e.poisonTime>0){e.poisonTime-=dt;e.hp-=e.poisonDps*dt;e.poisonTextClock=(e.poisonTextClock||0)-dt;if(e.poisonTextClock<=0){showDamage(e.x,e.y,e.poisonDps*.5);e.poisonTextClock=.5;}if(Math.random()<dt*8)burst(e.x+rand(-12,12),e.y+rand(-12,12),'#8dff45',1,45);if(e.hp<=0){defeatEnemy(e);return;}}
     const aimingLaser=lasers.some(l=>l.source===e);
-    if(!aimingLaser)e.targetRotation=0;
+    if(!aimingLaser)e.targetRotation=e.monsterId==='manta'?Math.atan2(player.y-e.y,player.x-e.x)+Math.PI/2:0;
     const turnDelta=Math.atan2(Math.sin(e.targetRotation-e.rotation),Math.cos(e.targetRotation-e.rotation));
     e.rotation+=turnDelta*Math.min(1,dt*(aimingLaser?7:3.2));
     if(e.y>85&&e.y<H*.7&&e.attack<=0)enemyAttack(e);
