@@ -6,7 +6,7 @@ const ui = { title: document.querySelector('#titleScreen'), lobby: document.quer
 const ultimateButton = document.querySelector('#ultimate');
 const hud={root:document.querySelector('#hud'),xp:document.querySelector('#hudHp'),level:document.querySelector('#hudLevel'),score:document.querySelector('#hudScore'),progress:document.querySelector('#waveProgress')};
 
-const art = { player: new Image(), ignis: new Image(), lumina: new Image(), voltis: new Image(), venora: new Image(), enemy: new Image(), manta: new Image(), eliteWyvernParts: new Image(), miniBoss: new Image(), chapterBoss: new Image(), bg: new Image(), shadow: new Image() };
+const art = { player: new Image(), ignis: new Image(), lumina: new Image(), voltis: new Image(), venora: new Image(), enemy: new Image(), manta: new Image(), eliteWyvernParts: new Image(), miniBoss: new Image(), chapterBoss: new Image(), bossProjectile: new Image(), bg: new Image(), shadow: new Image() };
 art.player.src = 'assets/sprites/dragon-red.png';
 art.ignis.src = 'assets/sprites/dragon-ignis.png';
 art.lumina.src = 'assets/sprites/dragon-lumina.png';
@@ -17,6 +17,7 @@ art.manta.src = 'assets/sprites/sky-manta.png';
 art.eliteWyvernParts.src = 'assets/sprites/elite-parts-wyvern.png';
 art.miniBoss.src = 'assets/sprites/wyvern-crimson-armored.png';
 art.chapterBoss.src = 'assets/sprites/emerald-dreadwing-phase2-v7.png';
+art.bossProjectile.src = 'assets/sprites/boss-projectile-v1.png';
 art.bg.src = matchMedia('(pointer: coarse)').matches ? 'assets/backgrounds/sky-canyon-tall-v3.png' : 'assets/backgrounds/sky-canyon.png';
 art.shadow.src = 'assets/sprites/dragon-shadow.png';
 
@@ -467,15 +468,11 @@ function drawEnemyShotCharge(s){
   const core=ctx.createRadialGradient(-3,-3,1,0,0,s.r+9);core.addColorStop(0,'#f4c9ff');core.addColorStop(.38,'#7422ad');core.addColorStop(.75,'#250831');core.addColorStop(1,'#0b0210');ctx.fillStyle=core;ctx.globalAlpha=.72+chargeProgress*.22;drawJaggedEnergy((s.r+8)*pulse,animationTime+s.x*.03,.22);ctx.fill();ctx.restore();
 }
 function drawBossEnemyShot(s,colors,homing,angle,seed,radius){
-  ctx.save();ctx.translate(s.x,s.y);ctx.rotate(angle);
-  ctx.shadowBlur=homing?18:14;ctx.shadowColor='#6b16a7';
-  ctx.globalAlpha=.92;ctx.fillStyle='#130619';
-  drawJaggedEnergy(radius*1.42,seed+5.1,.38);ctx.fill();
-  ctx.globalAlpha=.96;const core=ctx.createRadialGradient(-radius*.12,-radius*.16,1,0,0,radius*1.12);core.addColorStop(0,'#f0c8ff');core.addColorStop(.24,'#8b2bd2');core.addColorStop(.56,'#351052');core.addColorStop(1,'#09020f');ctx.fillStyle=core;drawJaggedEnergy(radius*1.06,seed,.3);ctx.fill();
-  ctx.globalAlpha=.9;ctx.strokeStyle=homing?'#ff6f91':'#d88cff';ctx.lineWidth=2.4;drawJaggedEnergy(radius*1.34,seed+2.7,.4);ctx.stroke();
-  ctx.globalAlpha=.86;ctx.fillStyle=homing?'#ff5f75':'#c179ff';for(let spike=0;spike<8;spike++){const a=spike*Math.PI*2/8+Math.sin(animationTime*4+spike)*.06,r=radius*(1.24+(spike%2)*.16),len=homing?11:8;ctx.save();ctx.rotate(a);ctx.translate(r,0);ctx.beginPath();ctx.moveTo(len,0);ctx.lineTo(-len*.38,Math.max(3,radius*.19));ctx.lineTo(-len*.22,-Math.max(3,radius*.17));ctx.closePath();ctx.fill();ctx.restore();}
-  ctx.globalAlpha=.38;ctx.strokeStyle=homing?'#ff738a':'#aa55ff';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(0,0,radius*1.9,radius*.64,Math.sin((s.age||0)*2)*.22,0,Math.PI*2);ctx.stroke();
-  ctx.globalAlpha=.42;ctx.fillStyle='#44136c';ctx.beginPath();ctx.moveTo(-radius*.5,0);ctx.quadraticCurveTo(-radius*2.5,-radius*.8,-radius*2.95,0);ctx.quadraticCurveTo(-radius*2.5,radius*.65,-radius*.5,0);ctx.fill();
+  if(!art.bossProjectile.complete)return;
+  const frame=Math.floor(((s.age||0)*14+(homing?2:0))%8),size=radius*(homing?5.3:4.8);
+  ctx.save();ctx.translate(s.x,s.y);ctx.rotate(angle);ctx.shadowBlur=homing?14:10;ctx.shadowColor='#8d28dc';
+  for(let ghost=2;ghost>0;ghost--){ctx.globalAlpha=.16/ghost;ctx.drawImage(art.bossProjectile,frame*256,0,256,256,-size/2-ghost*18,-size/2,size,size);}
+  ctx.globalAlpha=1;ctx.drawImage(art.bossProjectile,frame*256,0,256,256,-size/2,-size/2,size,size);
   ctx.restore();
 }
 function drawEnemyShot(s){
