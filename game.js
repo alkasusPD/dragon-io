@@ -34,7 +34,7 @@ const CHAPTER_BOSS_WAVE = 10;
 const WAVE_PROGRESS_STEPS=[
   {wave:1,label:'1'},{wave:2,label:'2'},{wave:3,label:'3'},{wave:3,label:'☠',boss:true},
   {wave:4,label:'4'},{wave:5,label:'5'},{wave:6,label:'6'},{wave:6,label:'☠',boss:true},
-  {wave:7,label:'7'},{wave:8,label:'8'},{wave:9,label:'9'},{wave:10,label:'🐉',boss:true,final:true}
+  {wave:7,label:'7'},{wave:8,label:'8'},{wave:9,label:'9'},{wave:10,label:'☠',boss:true,final:true}
 ];
 const PLAYER_MAX_Y = H * .72;
 const TOUCH_SPEED_MULTIPLIER = 1.4;
