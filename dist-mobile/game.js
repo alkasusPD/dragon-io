@@ -105,7 +105,7 @@ function enemyAttack(e){
       for(let i=0;i<count;i++){const offset=(i-(count-1)/2)*.2,a=base+offset;enemyShots.push({type:'chapterEnergy',x:e.x,y:e.y+35,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,r:16,life:7,damage:26,age:0});}
       e.attack=e.hp/e.max<.5?1.45:1.8;
     }else{
-      for(const side of [-1,1]){const speed=92,life=5.7;enemyShots.push({type:'chapterHoming',source:e,side,x:e.x+side*104,y:e.y+32,vx:0,vy:0,speed,turn:1.25,r:19,life,maxLife:life,charge:.9,damage:32,age:0,homing:true});}
+      for(const side of [-1,1]){const life=6.7;enemyShots.push({type:'chapterHoming',source:e,side,x:e.x+side*104,y:e.y+32,vx:0,vy:0,speed:0,minSpeed:82,maxSpeed:124,turn:1.25,r:19,life,maxLife:life,charge:.9,damage:32,age:0,homing:true});}
       e.attack=e.hp/e.max<.5?2.1:2.55;
     }
     return;
@@ -267,7 +267,7 @@ function update(dt){
     e.rotation+=turnDelta*Math.min(1,dt*(aimingLaser?7:3.2));
     if(e.y>85&&e.y<H*.7&&e.attack<=0)enemyAttack(e);
   });
-  enemyShots.forEach(s=>{s.age=(s.age||0)+dt;if(s.homing&&s.charge>0){s.charge-=dt;if(s.source&&!s.source.dead){s.x=s.source.x+s.side*104;s.y=s.source.y+32;}if(s.charge<=0){const launch=Math.atan2(player.y-s.y,player.x-s.x);s.vx=Math.cos(launch)*s.speed;s.vy=Math.sin(launch)*s.speed;burst(s.x,s.y,'#d78aff',18,170);}}else{if(s.homing){const current=Math.atan2(s.vy,s.vx),target=Math.atan2(player.y-s.y,player.x-s.x),delta=Math.atan2(Math.sin(target-current),Math.cos(target-current)),angle=current+delta*Math.min(1,s.turn*dt);s.vx=Math.cos(angle)*s.speed;s.vy=Math.sin(angle)*s.speed;if(Math.random()<dt*18)particles.push({x:s.x+rand(-5,5),y:s.y+rand(-5,5),vx:-s.vx*.12+rand(-20,20),vy:-s.vy*.12+rand(-20,20),life:.32,max:.32,color:'#b94cff'});}s.x+=s.vx*dt;s.y+=s.vy*dt;}s.life-=dt;if(s.homing&&s.life<=0)burst(s.x,s.y,'#b94cff',12,120);});
+  enemyShots.forEach(s=>{s.age=(s.age||0)+dt;if(s.homing&&s.charge>0){s.charge-=dt;if(s.source&&!s.source.dead){s.x=s.source.x+s.side*104;s.y=s.source.y+32;}if(s.charge<=0){s.speed=rand(s.minSpeed||82,s.maxSpeed||124);const launch=Math.atan2(player.y-s.y,player.x-s.x);s.vx=Math.cos(launch)*s.speed;s.vy=Math.sin(launch)*s.speed;burst(s.x,s.y,'#d78aff',18,170);}}else{if(s.homing){const current=Math.atan2(s.vy,s.vx),target=Math.atan2(player.y-s.y,player.x-s.x),delta=Math.atan2(Math.sin(target-current),Math.cos(target-current)),angle=current+delta*Math.min(1,s.turn*dt);s.vx=Math.cos(angle)*s.speed;s.vy=Math.sin(angle)*s.speed;if(Math.random()<dt*18)particles.push({x:s.x+rand(-5,5),y:s.y+rand(-5,5),vx:-s.vx*.12+rand(-20,20),vy:-s.vy*.12+rand(-20,20),life:.32,max:.32,color:'#b94cff'});}s.x+=s.vx*dt;s.y+=s.vy*dt;}s.life-=dt;if(s.homing&&s.life<=0)burst(s.x,s.y,'#b94cff',12,120);});
   lasers.forEach(l=>{l.age+=dt;if(!l.source.dead){l.x=l.source.x;l.y=l.source.y;}});
   particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;});
   fireImpacts.forEach(impact=>impact.life-=dt);
