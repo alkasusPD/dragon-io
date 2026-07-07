@@ -6,7 +6,7 @@ const ui = { title: document.querySelector('#titleScreen'), lobby: document.quer
 const ultimateButton = document.querySelector('#ultimate');
 const hud={root:document.querySelector('#hud'),xp:document.querySelector('#hudHp'),level:document.querySelector('#hudLevel'),score:document.querySelector('#hudScore'),progress:document.querySelector('#waveProgress')};
 
-const art = { player: new Image(), ignis: new Image(), lumina: new Image(), voltis: new Image(), venora: new Image(), enemy: new Image(), manta: new Image(), eliteWyvernParts: new Image(), miniBoss: new Image(), chapterBoss: new Image(), bossProjectile: new Image(), bg: new Image(), shadow: new Image() };
+const art = { player: new Image(), ignis: new Image(), lumina: new Image(), voltis: new Image(), venora: new Image(), enemy: new Image(), manta: new Image(), eliteWyvernParts: new Image(), miniBoss: new Image(), chapterBoss: new Image(), bossProjectile: new Image(), bossHoming: new Image(), bg: new Image(), shadow: new Image() };
 art.player.src = 'assets/sprites/dragon-red.png';
 art.ignis.src = 'assets/sprites/dragon-ignis.png';
 art.lumina.src = 'assets/sprites/dragon-lumina.png';
@@ -18,6 +18,7 @@ art.eliteWyvernParts.src = 'assets/sprites/elite-parts-wyvern.png';
 art.miniBoss.src = 'assets/sprites/wyvern-crimson-armored.png';
 art.chapterBoss.src = 'assets/sprites/emerald-dreadwing-phase2-v7.png';
 art.bossProjectile.src = 'assets/sprites/boss-projectile-v1.png';
+art.bossHoming.src = 'assets/sprites/boss-homing-orb-v1.png';
 art.bg.src = matchMedia('(pointer: coarse)').matches ? 'assets/backgrounds/sky-canyon-tall-v3.png' : 'assets/backgrounds/sky-canyon.png';
 art.shadow.src = 'assets/sprites/dragon-shadow.png';
 
@@ -469,11 +470,12 @@ function drawEnemyShotCharge(s){
   const core=ctx.createRadialGradient(-3,-3,1,0,0,s.r+9);core.addColorStop(0,'#f4c9ff');core.addColorStop(.38,'#7422ad');core.addColorStop(.75,'#250831');core.addColorStop(1,'#0b0210');ctx.fillStyle=core;ctx.globalAlpha=.72+chargeProgress*.22;drawJaggedEnergy((s.r+8)*pulse,animationTime+s.x*.03,.22);ctx.fill();ctx.restore();
 }
 function drawBossEnemyShot(s,colors,homing,angle,seed,radius){
-  if(!art.bossProjectile.complete)return;
-  const frame=Math.floor(((s.age||0)*14+(homing?2:0))%8),size=radius*(homing?5.3:4.8);
-  ctx.save();ctx.translate(s.x,s.y);ctx.rotate(angle);ctx.shadowBlur=homing?14:10;ctx.shadowColor='#8d28dc';
-  for(let ghost=2;ghost>0;ghost--){ctx.globalAlpha=.16/ghost;ctx.drawImage(art.bossProjectile,frame*256,0,256,256,-size/2-ghost*18,-size/2,size,size);}
-  ctx.globalAlpha=1;ctx.drawImage(art.bossProjectile,frame*256,0,256,256,-size/2,-size/2,size,size);
+  const img=homing?art.bossHoming:art.bossProjectile;
+  if(!img.complete)return;
+  const frame=Math.floor(((s.age||0)*14+(homing?2:0))%8),size=radius*(homing?4.9:4.8),rotation=homing?animationTime*.8:angle+Math.PI;
+  ctx.save();ctx.translate(s.x,s.y);ctx.rotate(rotation);ctx.shadowBlur=homing?12:10;ctx.shadowColor='#8d28dc';
+  if(!homing)for(let ghost=2;ghost>0;ghost--){ctx.globalAlpha=.16/ghost;ctx.drawImage(img,frame*256,0,256,256,-size/2-ghost*18,-size/2,size,size);}
+  ctx.globalAlpha=1;ctx.drawImage(img,frame*256,0,256,256,-size/2,-size/2,size,size);
   ctx.restore();
 }
 function drawEnemyShot(s){
