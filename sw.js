@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dragon-io-mobile-v48';
+const CACHE_NAME = 'dragon-io-mobile-v49';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -16,6 +16,9 @@ const CORE_ASSETS = [
   './assets/ui/profile-frame-dragon-emerald.png',
   './assets/profiles/profile-dragon-girl.png',
   './assets/profiles/profile-dragon-girl-circle.png',
+  './assets/ui/hud/coin.png',
+  './assets/ui/hud/wave-boss-skull.png',
+  './assets/ui/hud/pause.png',
   './assets/sprites/dragon-red.png',
   './assets/sprites/dragon-ignis.png',
   './assets/sprites/dragon-lumina.png',
