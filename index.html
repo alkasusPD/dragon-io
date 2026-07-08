@@ -37,6 +37,27 @@
       <button id="titleStart" class="screen-hitbox title-start" type="button" data-i18n-aria-label="aria.titleStart"></button>
     </section>
     <section id="lobbyScreen" class="screen lobby-screen" data-i18n-aria-label="aria.lobbyScreen">
+      <div class="lobby-top-hud" aria-label="로비 상단 정보">
+        <div class="lobby-account">
+          <div class="lobby-profile-frame" data-frame="bronze">
+            <div class="lobby-profile-image" data-profile="dragon"></div>
+          </div>
+          <div class="lobby-account-meta">
+            <div class="lobby-account-name">Dragon Slayer</div>
+            <div class="lobby-account-level">LV. 65</div>
+          </div>
+        </div>
+        <div class="lobby-wallet">
+          <div class="lobby-currency lobby-gold" aria-label="골드">
+            <span class="lobby-currency-icon"></span>
+            <span class="lobby-currency-value">125,634</span>
+          </div>
+          <div class="lobby-currency lobby-diamond" aria-label="다이아">
+            <span class="lobby-currency-icon"></span>
+            <span class="lobby-currency-value">8,950</span>
+          </div>
+        </div>
+      </div>
       <button id="lobbyPlay" class="screen-hitbox lobby-play" type="button" data-i18n-aria-label="aria.lobbyPlay"></button>
       <button id="lobbyShop" class="screen-hitbox lobby-tab lobby-tab-shop" type="button" data-i18n-aria-label="aria.lobbyShop"></button>
       <button id="lobbyHome" class="screen-hitbox lobby-tab lobby-tab-home" type="button" data-i18n-aria-label="aria.lobbyHome"></button>
@@ -77,7 +98,7 @@
       gameCanvas.height = Math.max(960, Math.round(gameCanvas.width * height / width));
     }
   </script>
-  <script src="strings.js?v=20260708-04"></script>
-  <script src="game.js?v=20260708-04"></script>
+  <script src="strings.js?v=20260708-05"></script>
+  <script src="game.js?v=20260708-05"></script>
 </body>
 </html>
