@@ -2,7 +2,7 @@ applyLocalization();
 const canvas = document.querySelector('#game');
 const ctx = canvas.getContext('2d');
 const W = canvas.width, H = canvas.height;
-const ui = { title: document.querySelector('#titleScreen'), lobby: document.querySelector('#lobbyScreen'), countdown: document.querySelector('#countdown'), countdownNumber: document.querySelector('#countdownNumber'), upgrade: document.querySelector('#upgrade'), reroll: document.querySelector('#reroll'), over: document.querySelector('#gameover'), pause: document.querySelector('#pausePanel'), result: document.querySelector('#result'), cards: document.querySelector('#cards') };
+const ui = { title: document.querySelector('#titleScreen'), lobby: document.querySelector('#lobbyScreen'), upgradeScreen: document.querySelector('#upgradeScreen'), countdown: document.querySelector('#countdown'), countdownNumber: document.querySelector('#countdownNumber'), upgrade: document.querySelector('#upgrade'), reroll: document.querySelector('#reroll'), over: document.querySelector('#gameover'), pause: document.querySelector('#pausePanel'), result: document.querySelector('#result'), cards: document.querySelector('#cards') };
 const ultimateButton = document.querySelector('#ultimate');
 const hud={root:document.querySelector('#hud'),xp:document.querySelector('#hudHp'),level:document.querySelector('#hudLevel'),score:document.querySelector('#hudScore'),progress:document.querySelector('#waveProgress')};
 
@@ -68,7 +68,7 @@ function reset() {
     wingSlots: Array.from({length:4},()=>({type:null,shot:0,shield:0,cooldown:0,rotation:0,targetRotation:0}))
   };
   bullets=[]; enemies=[]; enemyShots=[]; lasers=[]; particles=[]; fireImpacts=[]; lightningEffects=[]; damageTexts=[]; gems=[]; essences=[]; time=animationTime=score=spawnClock=bgY=0; wave=1; waveBanner=2.4; bossBanner=0; countdownTime=3; countdownValue=3; state='countdown';
-  [ui.title,ui.lobby,ui.upgrade,ui.over,ui.pause].forEach(x=>x.classList.remove('visible'));
+  [ui.title,ui.lobby,ui.upgradeScreen,ui.upgrade,ui.over,ui.pause].forEach(x=>x.classList.remove('visible'));
   hud.root.classList.add('visible');
   ultimateButton.classList.remove('visible');
   ui.countdownNumber.textContent='3';
@@ -342,6 +342,16 @@ function renderUpgradeChoices(previous=[]){
 function showUpgrade(){
   releaseVirtualJoystick();state='upgrade';ui.upgrade.classList.add('visible');renderUpgradeChoices();
 }
+function showLobby(){
+  clearMovementInput();state='lobby';ui.title.classList.remove('visible');ui.upgradeScreen.classList.remove('visible');ui.over.classList.remove('visible');ui.lobby.classList.add('visible');hud.root.classList.remove('visible');ultimateButton.classList.remove('visible');
+}
+function showMetaUpgrade(){
+  clearMovementInput();state='lobby-upgrade';ui.lobby.classList.remove('visible');ui.title.classList.remove('visible');ui.upgradeScreen.classList.add('visible');hud.root.classList.remove('visible');ultimateButton.classList.remove('visible');
+}
+function selectMetaUpgradeTab(tab){
+  document.querySelectorAll('[data-upgrade-tab]').forEach(button=>button.classList.toggle('active',button.dataset.upgradeTab===tab));
+  document.querySelectorAll('[data-upgrade-pane]').forEach(pane=>pane.classList.toggle('active',pane.dataset.upgradePane===tab));
+}
 function setResultMode(clear){ui.over.querySelector('[data-i18n="result.eyebrow"]').textContent=t(clear?'result.clearEyebrow':'result.eyebrow');ui.over.querySelector('[data-i18n="result.title"]').textContent=t(clear?'result.clearTitle':'result.title');}
 function completeChapter(){releaseVirtualJoystick();state='over';setResultMode(true);ui.result.textContent=t('result.clearSummary',{score});ui.over.classList.add('visible');ultimateButton.classList.remove('visible');hud.root.classList.remove('visible');}
 function endGame(){releaseVirtualJoystick();state='over';setResultMode(false);ui.result.textContent=t('result.summary',{seconds:Math.floor(time),score,wave});ui.over.classList.add('visible');ultimateButton.classList.remove('visible');hud.root.classList.remove('visible');}
@@ -512,11 +522,16 @@ function draw(){
 }
 
 function loop(t){const dt=Math.min(.033,(t-last)/1000||0);last=t;update(dt);draw();requestAnimationFrame(loop);}requestAnimationFrame(loop);
-document.querySelector('#titleStart').onclick=()=>{state='lobby';ui.title.classList.remove('visible');ui.lobby.classList.add('visible');};
+document.querySelector('#titleStart').onclick=showLobby;
 document.querySelector('#lobbyPlay').onclick=reset;
+document.querySelector('#lobbyUpgrade').onclick=showMetaUpgrade;
+document.querySelector('#upgradeBack').onclick=showLobby;
+document.querySelector('#upgradeHomeTab').onclick=showLobby;
+document.querySelector('#upgradeShopTab').onclick=()=>{};
+document.querySelectorAll('[data-upgrade-tab]').forEach(button=>button.onclick=()=>selectMetaUpgradeTab(button.dataset.upgradeTab));
 document.querySelector('#restart').onclick=reset;
 ui.reroll.onclick=()=>{if(state!=='upgrade'||player.rerolls<=0)return;const previous=JSON.parse(ui.reroll.dataset.choices||'[]');player.rerolls--;renderUpgradeChoices(previous);};
-document.querySelector('#backLobby').onclick=()=>{clearMovementInput();state='lobby';ui.over.classList.remove('visible');ui.lobby.classList.add('visible');hud.root.classList.remove('visible');ultimateButton.classList.remove('visible');};
+document.querySelector('#backLobby').onclick=showLobby;
 document.querySelector('#pause').onclick=()=>{if(state==='play'){clearMovementInput();state='paused';ui.pause.classList.add('visible');ultimateButton.classList.remove('visible');}};
 document.querySelector('#resume').onclick=()=>{if(state==='paused'){clearMovementInput();state='play';ui.pause.classList.remove('visible');ultimateButton.classList.add('visible');last=performance.now();}};
 document.querySelector('#skipBoss').onclick=jumpToChapterBoss;

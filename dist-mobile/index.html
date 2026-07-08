@@ -63,6 +63,91 @@
       <button id="lobbyHome" class="screen-hitbox lobby-tab lobby-tab-home" type="button" data-i18n-aria-label="aria.lobbyHome"></button>
       <button id="lobbyUpgrade" class="screen-hitbox lobby-tab lobby-tab-upgrade" type="button" data-i18n-aria-label="aria.lobbyUpgrade"></button>
     </section>
+    <section id="upgradeScreen" class="screen upgrade-screen" aria-label="업그레이드 화면">
+      <div class="upgrade-top-hud">
+        <button id="upgradeBack" class="upgrade-back" type="button" aria-label="로비로 돌아가기">‹</button>
+        <div>
+          <p class="upgrade-kicker">SANCTUARY WORKSHOP</p>
+          <h1>업그레이드</h1>
+        </div>
+        <div class="upgrade-wallet">
+          <div class="lobby-currency lobby-gold" aria-label="골드"><span class="lobby-currency-icon"></span><span class="lobby-currency-value">125,634</span></div>
+          <div class="lobby-currency lobby-diamond" aria-label="다이아"><span class="lobby-currency-icon"></span><span class="lobby-currency-value">8,950</span></div>
+        </div>
+      </div>
+      <div class="upgrade-tabs" role="tablist" aria-label="업그레이드 타입">
+        <button class="upgrade-tab active" type="button" data-upgrade-tab="stats">능력치</button>
+        <button class="upgrade-tab" type="button" data-upgrade-tab="skills">스킬</button>
+      </div>
+      <div class="upgrade-page-content">
+        <div class="upgrade-pane active" data-upgrade-pane="stats">
+          <section class="upgrade-note">
+            <div class="note-spine"></div>
+            <article class="stat-column attack">
+              <div class="upgrade-icon"></div>
+              <h2>공격력</h2>
+              <p>화염 피해와 기본 투사체 위력을 올립니다.</p>
+              <div class="upgrade-track"><span style="width: 42%"></span></div>
+              <div class="upgrade-meta"><strong>Lv. 12</strong><em>+24%</em></div>
+              <button type="button">골드 4,200</button>
+            </article>
+            <article class="stat-column health">
+              <div class="upgrade-icon"></div>
+              <h2>체력</h2>
+              <p>최대 체력과 생존 안정성을 올립니다.</p>
+              <div class="upgrade-track"><span style="width: 31%"></span></div>
+              <div class="upgrade-meta"><strong>Lv. 8</strong><em>HP +160</em></div>
+              <button type="button">골드 3,600</button>
+            </article>
+            <article class="stat-column utility">
+              <div class="upgrade-icon"></div>
+              <h2>유틸리티</h2>
+              <p>이동속도, 공격속도, 획득 범위를 관리합니다.</p>
+              <div class="upgrade-track"><span style="width: 22%"></span></div>
+              <div class="upgrade-meta"><strong>Lv. 5</strong><em>속도 +5%</em></div>
+              <button type="button">골드 2,800</button>
+            </article>
+          </section>
+        </div>
+        <div class="upgrade-pane" data-upgrade-pane="skills">
+          <div class="skill-upgrade-grid">
+            <article class="skill-upgrade-card">
+              <div class="skill-icon ignis"></div>
+              <div class="skill-info">
+                <h2>관통 화염</h2>
+                <p>새끼용 이그니스의 관통탄 피해량 증가</p>
+                <div class="skill-require"><span class="shard-icon"></span> 18 / 25 <b>+</b> 골드 5,000</div>
+              </div>
+              <button type="button">업그레이드</button>
+            </article>
+            <article class="skill-upgrade-card">
+              <div class="skill-icon lumina"></div>
+              <div class="skill-info">
+                <h2>수호 방벽</h2>
+                <p>루미나 보호막 재충전 시간 감소</p>
+                <div class="skill-require"><span class="shard-icon"></span> 9 / 20 <b>+</b> 골드 4,500</div>
+              </div>
+              <button type="button" disabled>조각 부족</button>
+            </article>
+            <article class="skill-upgrade-card">
+              <div class="skill-icon voltis"></div>
+              <div class="skill-info">
+                <h2>연쇄 번개</h2>
+                <p>볼티스 번개의 연쇄 대상 수 증가</p>
+                <div class="skill-require"><span class="shard-icon"></span> 31 / 30 <b>+</b> 골드 6,200</div>
+              </div>
+              <button type="button">업그레이드</button>
+            </article>
+          </div>
+          <p class="skill-source">스킬 조각은 상점 가챠 보상으로 획득하는 구조입니다.</p>
+        </div>
+      </div>
+      <nav class="upgrade-bottom-nav" aria-label="하단 메뉴">
+        <button id="upgradeShopTab" type="button"><span>상점</span></button>
+        <button id="upgradeHomeTab" class="home" type="button"><span>로비</span></button>
+        <button class="active" type="button"><span>업그레이드</span></button>
+      </nav>
+    </section>
     <section id="countdown" class="countdown" aria-live="assertive" data-i18n-aria-label="aria.countdown">
       <p data-i18n="countdown.flight"></p>
       <strong id="countdownNumber">3</strong>
@@ -98,7 +183,7 @@
       gameCanvas.height = Math.max(960, Math.round(gameCanvas.width * height / width));
     }
   </script>
-  <script src="strings.js?v=20260708-05"></script>
-  <script src="game.js?v=20260708-05"></script>
+  <script src="strings.js?v=20260708-06"></script>
+  <script src="game.js?v=20260708-06"></script>
 </body>
 </html>

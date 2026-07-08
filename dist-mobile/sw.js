@@ -1,10 +1,10 @@
-const CACHE_NAME = 'dragon-io-mobile-v52';
+const CACHE_NAME = 'dragon-io-mobile-v53';
 const CORE_ASSETS = [
   './',
   './index.html',
   './style.css',
-  './strings.js?v=20260708-05',
-  './game.js?v=20260708-05',
+  './strings.js?v=20260708-06',
+  './game.js?v=20260708-06',
   './manifest.webmanifest',
   './assets/backgrounds/sky-canyon.png',
   './assets/backgrounds/sky-canyon-tall.png',
@@ -21,6 +21,11 @@ const CORE_ASSETS = [
   './assets/ui/hud/wave-boss-skull.png',
   './assets/ui/hud/wave-miniboss-skull.png',
   './assets/ui/hud/pause.png',
+  './assets/ui/upgrade/upgrade-attack.png',
+  './assets/ui/upgrade/upgrade-health.png',
+  './assets/ui/upgrade/upgrade-utility.png',
+  './assets/ui/upgrade/upgrade-skill.png',
+  './assets/ui/upgrade/upgrade-shard.png',
   './assets/sprites/dragon-red.png',
   './assets/sprites/dragon-ignis.png',
   './assets/sprites/dragon-lumina.png',
