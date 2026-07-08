@@ -351,18 +351,24 @@ function showMetaUpgrade(){
 function renderStatNodeTree(){
   const scroll=document.querySelector('#statNodeScroll'),levelText=document.querySelector('#statNodeLevel'),labelText=document.querySelector('#statNodeFooterLabel'),nextText=document.querySelector('#statNodeNext'),effectText=document.querySelector('#statNodeEffect'),costButton=document.querySelector('#statNodeCost');
   const maxLevel=50;
+  const commonStats=[
+    {subtype:'move',name:'이동속도',effect:'이동속도 +1%'},
+    {subtype:'magnet',name:'획득 범위',effect:'경험치/재화 획득 범위 +3%'},
+    {subtype:'fireRate',name:'공격 속도',effect:'공격 속도 +1.5%'}
+  ];
   const nodeTypes=[
     {type:'attack',name:'공격력',effect:'공격력 +2%',level:12,rail:document.querySelector('#attackNodeRail')},
     {type:'health',name:'체력',effect:'최대 체력 +20',level:8,rail:document.querySelector('#healthNodeRail')},
-    {type:'utility',name:'공용',effect:'이동속도 +1% / 획득 범위 +3%',level:5,rail:document.querySelector('#utilityNodeRail')}
+    {type:'utility',name:'공용',level:5,rail:document.querySelector('#utilityNodeRail'),substats:commonStats}
   ];
   const selectNode=(node,config,level)=>{
     document.querySelectorAll('.stat-node.selected').forEach(item=>item.classList.remove('selected'));
     node?.classList.add('selected');
     const isNext=level===config.level+1;
+    const substat=config.substats?.[(level-1)%config.substats.length];
     if(labelText)labelText.textContent=isNext?'다음 노드':'선택 노드';
-    if(nextText)nextText.textContent=`${config.name} Lv.${level}`;
-    if(effectText)effectText.textContent=config.effect;
+    if(nextText)nextText.textContent=substat?`${config.name} - ${substat.name} Lv.${level}`:`${config.name} Lv.${level}`;
+    if(effectText)effectText.textContent=substat?substat.effect:config.effect;
     if(costButton)costButton.textContent=level<=config.level?'획득 완료':`골드 ${Math.round(1800+level*185).toLocaleString('ko-KR')}`;
   };
   nodeTypes.forEach(config=>{
@@ -371,8 +377,10 @@ function renderStatNodeTree(){
     config.rail.style.setProperty('--stat-progress',`${Math.max(0,(config.level-1)/(maxLevel-1))*100}%`);
     for(let level=1;level<=maxLevel;level++){
       const node=document.createElement('div');
+      const substat=config.substats?.[(level-1)%config.substats.length];
       node.className=`stat-node ${config.type} ${level<config.level?'complete':level===config.level?'current':'locked'}`;
-      node.innerHTML=`<div class="stat-node-box" aria-label="${config.name} ${level}단계"><span class="stat-node-level">${level}</span></div>`;
+      if(substat)node.dataset.subtype=substat.subtype;
+      node.innerHTML=`<div class="stat-node-box" aria-label="${substat?`${config.name} ${substat.name}`:config.name} ${level}단계"><span class="stat-node-level">${level}</span></div>`;
       node.onclick=()=>selectNode(node,config,level);
       config.rail.appendChild(node);
     }

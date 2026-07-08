@@ -77,6 +77,10 @@ canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: 
 .stat-node.attack .stat-node-box::before { background-image: url('assets/ui/upgrade/upgrade-attack.png'); }
 .stat-node.health .stat-node-box::before { background-image: url('assets/ui/upgrade/upgrade-health.png'); }
 .stat-node.utility .stat-node-box::before { background-image: url('assets/ui/upgrade/upgrade-utility.png'); }
+.stat-node.utility .stat-node-box::after { position: absolute; left: -3px; top: -4px; display: grid; place-items: center; width: 20px; height: 20px; border: 2px solid #0b1420; border-radius: 50%; color: #082033; background: #8eeaff; font-size: 10px; font-weight: 1000; line-height: 1; box-shadow: 0 2px 0 #04111a; }
+.stat-node.utility[data-subtype="move"] .stat-node-box::after { content: '이'; background: linear-gradient(#b8fff0,#48e5be); }
+.stat-node.utility[data-subtype="magnet"] .stat-node-box::after { content: '획'; background: linear-gradient(#c2e8ff,#52bdff); }
+.stat-node.utility[data-subtype="fireRate"] .stat-node-box::after { content: '속'; background: linear-gradient(#fff0a8,#ffb842); }
 .stat-node.complete .stat-node-box, .stat-node.current .stat-node-box { border-color: #ffeaa1; background: linear-gradient(#5c3441,#32223c); box-shadow: inset 0 0 0 2px #241126, 0 0 15px #ffd94a66, 0 4px 0 #4e2d12; }
 .stat-node.complete .stat-node-box::before, .stat-node.current .stat-node-box::before { opacity: 1; filter: drop-shadow(0 2px #081423); }
 .stat-node.current .stat-node-box { transform: scale(1.1); border-color: #fff6ba; box-shadow: inset 0 0 0 2px #6b2d13, 0 0 22px #ffdb58aa, 0 5px 0 #754311; }
