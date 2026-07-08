@@ -81,7 +81,7 @@
             <div class="stat-badge attack"><span></span></div>
             <div>
               <strong>능력치 노드</strong>
-              <p>공격력 · 체력 · 유틸리티를 각각 50단계까지 성장시킵니다.</p>
+              <p>공격력 · 체력 · 공용을 각각 50단계까지 성장시킵니다.</p>
             </div>
             <em id="statNodeLevel">총 25</em>
           </div>
@@ -96,17 +96,18 @@
                 <div id="healthNodeRail" class="stat-node-rail"></div>
               </div>
               <div class="stat-node-lane utility" data-stat-type="utility">
-                <div class="stat-node-lane-title"><span></span><strong>유틸리티</strong></div>
+                <div class="stat-node-lane-title"><span></span><strong>공용</strong></div>
                 <div id="utilityNodeRail" class="stat-node-rail"></div>
               </div>
             </div>
           </div>
           <div class="stat-node-footer">
             <div>
-              <span>다음 노드</span>
+              <span id="statNodeFooterLabel">선택 노드</span>
               <strong id="statNodeNext">공격력 Lv.13</strong>
+              <p id="statNodeEffect" class="stat-node-effect">공격력 +2%</p>
             </div>
-            <button type="button">골드 4,200</button>
+            <button id="statNodeCost" type="button">골드 4,200</button>
           </div>
         </section>
       </div>
@@ -151,7 +152,7 @@
       gameCanvas.height = Math.max(960, Math.round(gameCanvas.width * height / width));
     }
   </script>
-  <script src="strings.js?v=20260708-08"></script>
-  <script src="game.js?v=20260708-08"></script>
+  <script src="strings.js?v=20260708-09"></script>
+  <script src="game.js?v=20260708-09"></script>
 </body>
 </html>
