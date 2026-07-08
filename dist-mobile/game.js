@@ -77,25 +77,25 @@ function reset() {
 }
 
 function spawnEnemy() {
-  const eliteChance=wave===1?0:wave===2?.05:Math.min(.1+(wave-3)*.03,.28);
-  const tough=1+time/55,elite=Math.random()<eliteChance,type=elite?'elite':'normal';
+  const eliteChance=wave===1?0:wave===2?.03:Math.min(.06+(wave-3)*.02,.18);
+  const tough=1+time/95,elite=Math.random()<eliteChance,type=elite?'elite':'normal';
   const pattern=elite?(Math.random()<.5?'enhancedOrb':'laser'):'orb';
-  enemies.push({x:rand(55,W-55),y:-75,r:elite?26:18,hp:(elite?95:30)*tough,max:(elite?95:30)*tough,speed:rand(62,96)*(elite?.78:1)*(1+time/240),sway:rand(1.2,3.4),phase:rand(0,7),damage:elite?26:14,type,monsterId:'wyvern',elite,anim:rand(0,12),attack:rand(1.1,2.4),pattern,rotation:0,targetRotation:0});
+  enemies.push({x:rand(55,W-55),y:-75,r:elite?26:18,hp:(elite?82:28)*tough,max:(elite?82:28)*tough,speed:rand(56,84)*(elite?.76:1)*(1+time/420),sway:rand(1.2,3.4),phase:rand(0,7),damage:elite?22:12,type,monsterId:'wyvern',elite,anim:rand(0,12),attack:rand(1.6,2.8),pattern,rotation:0,targetRotation:0});
 }
 
 function spawnMiniBoss(){
-  const scale=1+(wave-3)*.16,tough=1+time/70,hp=420*scale*tough;
-  enemies.push({x:W/2,y:-130,r:44,hp,max:hp,speed:42*(1+time/360),sway:1.15,phase:rand(0,7),damage:36+wave*1.5,type:'miniboss',boss:true,anim:0,attack:1.4,pattern:'bossLaser',rotation:0,targetRotation:0,anchorY:155,patrolDir:Math.random()<.5?-1:1});
+  const scale=1+(wave-3)*.1,tough=1+time/110,hp=360*scale*tough;
+  enemies.push({x:W/2,y:-130,r:44,hp,max:hp,speed:38*(1+time/520),sway:1.15,phase:rand(0,7),damage:30+wave,type:'miniboss',boss:true,anim:0,attack:1.7,pattern:'bossLaser',rotation:0,targetRotation:0,anchorY:155,patrolDir:Math.random()<.5?-1:1});
   bossBanner=2.2;spawnClock=Math.max(spawnClock,2.8);
 }
 function spawnChampion(){
-  const tough=1+time/65,hp=220*tough;
-  enemies.push({x:rand(105,W-105),y:-115,r:34,hp,max:hp,speed:52,sway:.9,phase:rand(0,7),damage:32,type:'champion',monsterId:'manta',champion:true,anim:rand(0,12),attack:1.25,pattern:'enhancedOrb',rotation:Math.PI,targetRotation:Math.PI,anchorY:230,patrolDir:Math.random()<.5?-1:1});
+  const tough=1+time/105,hp=170*tough;
+  enemies.push({x:rand(105,W-105),y:-115,r:34,hp,max:hp,speed:48,sway:.9,phase:rand(0,7),damage:26,type:'champion',monsterId:'manta',champion:true,anim:rand(0,12),attack:1.55,pattern:'enhancedOrb',rotation:Math.PI,targetRotation:Math.PI,anchorY:230,patrolDir:Math.random()<.5?-1:1});
 }
 function spawnChapterBoss(){
-  const tough=1+time/90,hp=1800*tough;
+  const tough=1+time/140,hp=1500*tough;
   enemies=[];enemyShots=[];lasers=[];
-  enemies.push({x:W/2,y:-170,r:58,hp,max:hp,speed:38,sway:.8,phase:rand(0,7),damage:48,type:'chapterBoss',monsterId:'emeraldDreadwing',boss:true,chapterBoss:true,anim:0,attack:1.8,pattern:'chapterEnergy',rotation:0,targetRotation:0,anchorY:185,patrolDir:1});
+  enemies.push({x:W/2,y:-170,r:58,hp,max:hp,speed:36,sway:.8,phase:rand(0,7),damage:42,type:'chapterBoss',monsterId:'emeraldDreadwing',boss:true,chapterBoss:true,anim:0,attack:2.1,pattern:'chapterEnergy',rotation:0,targetRotation:0,anchorY:185,patrolDir:1});
   bossBanner=3;spawnClock=999;
 }
 
@@ -103,33 +103,33 @@ function enemyAttack(e){
   if(e.pattern==='chapterEnergy'){
     const base=Math.atan2(player.y-e.y,player.x-e.x);e.attackMode=(e.attackMode||0)+1;
     if(e.attackMode%2===1){
-      const count=e.hp/e.max<.5?5:3,speed=230;
-      for(let i=0;i<count;i++){const offset=(i-(count-1)/2)*.2,a=base+offset;enemyShots.push({type:'chapterEnergy',x:e.x,y:e.y+35,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,r:16,life:7,damage:26,age:0});}
-      e.attack=e.hp/e.max<.5?1.45:1.8;
+      const count=e.hp/e.max<.5?5:3,speed=205;
+      for(let i=0;i<count;i++){const offset=(i-(count-1)/2)*.2,a=base+offset;enemyShots.push({type:'chapterEnergy',x:e.x,y:e.y+35,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,r:16,life:7,damage:22,age:0});}
+      e.attack=e.hp/e.max<.5?1.8:2.25;
     }else{
-      for(const side of [-1,1]){const life=6.7;enemyShots.push({type:'chapterHoming',source:e,side,x:e.x+side*104,y:e.y+32,vx:0,vy:0,speed:0,minSpeed:82,maxSpeed:124,turn:1.25,r:19,life,maxLife:life,charge:.9,damage:32,age:0,homing:true});}
-      e.attack=e.hp/e.max<.5?2.1:2.55;
+      for(const side of [-1,1]){const life=6.7;enemyShots.push({type:'chapterHoming',source:e,side,x:e.x+side*104,y:e.y+32,vx:0,vy:0,speed:0,minSpeed:70,maxSpeed:108,turn:1.05,r:19,life,maxLife:life,charge:.9,damage:26,age:0,homing:true});}
+      e.attack=e.hp/e.max<.5?2.4:2.9;
     }
     return;
   }else if(e.pattern==='bossLaser'){
-    const base=Math.atan2(player.y-e.y,player.x-e.x),count=wave>=6?3:1;
-    for(let i=0;i<count;i++){const offset=(i-(count-1)/2)*.2,a=base+offset;lasers.push({source:e,x:e.x,y:e.y,dx:Math.cos(a),dy:Math.sin(a),age:0,warn:1.15,active:.65,damage:30+wave*2,boss:true});}
+    const base=Math.atan2(player.y-e.y,player.x-e.x),count=wave>=6?2:1;
+    for(let i=0;i<count;i++){const offset=(i-(count-1)/2)*.2,a=base+offset;lasers.push({source:e,x:e.x,y:e.y,dx:Math.cos(a),dy:Math.sin(a),age:0,warn:1.25,active:.58,damage:24+wave,boss:true});}
     e.targetRotation=base-Math.PI/2;e.attack=rand(3.6,4.5);return;
   }else if(e.pattern==='enhancedOrb'){
-    const a=Math.atan2(player.y-e.y,player.x-e.x),speed=235+wave*5;
-    enemyShots.push({type:'enhancedOrb',x:e.x,y:e.y+18,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,r:11,life:6,damage:19});
+    const a=Math.atan2(player.y-e.y,player.x-e.x),speed=210+wave*3;
+    enemyShots.push({type:'enhancedOrb',x:e.x,y:e.y+18,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,r:11,life:6,damage:16});
   }else if(e.pattern==='orb'){
-    const a=Math.atan2(player.y-e.y,player.x-e.x),speed=205+wave*4;
-    enemyShots.push({type:'orb',x:e.x,y:e.y+18,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,r:8,life:6,damage:13});
+    const a=Math.atan2(player.y-e.y,player.x-e.x),speed=185+wave*3;
+    enemyShots.push({type:'orb',x:e.x,y:e.y+18,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,r:8,life:6,damage:11});
   }else if(e.pattern==='burst'){
-    const count=e.elite?12:8,offset=time*.8;
-    for(let i=0;i<count;i++){const a=offset+i*Math.PI*2/count,speed=e.elite?155:135;enemyShots.push({type:'burst',x:e.x,y:e.y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,r:6,life:5,damage:10});}
+    const count=e.elite?10:6,offset=time*.8;
+    for(let i=0;i<count;i++){const a=offset+i*Math.PI*2/count,speed=e.elite?140:120;enemyShots.push({type:'burst',x:e.x,y:e.y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,r:6,life:5,damage:8});}
   }else{
     const a=Math.atan2(player.y-e.y,player.x-e.x);
     e.targetRotation=a-Math.PI/2;
-    lasers.push({source:e,x:e.x,y:e.y,dx:Math.cos(a),dy:Math.sin(a),age:0,warn:.85,active:.42,damage:24});
+    lasers.push({source:e,x:e.x,y:e.y,dx:Math.cos(a),dy:Math.sin(a),age:0,warn:.95,active:.36,damage:20});
   }
-  e.attack=rand(e.elite?2.2:2.8,e.elite?3.4:4.4);
+  e.attack=rand(e.elite?2.6:3.2,e.elite?3.8:4.8);
 }
 
 function fire(){
@@ -244,7 +244,7 @@ function update(dt){
   });
   if(player.shot<=0){fire();player.shot=player.fire;}
   player.wingSlots.forEach((wing,index)=>{if(wing.shot>0)return;if(wing.type==='ignis')fireIgnis(index,wing);else if(wing.type==='voltis')fireVoltis(index,wing);else if(wing.type==='venora')fireVenora(index,wing);});
-  spawnClock-=dt;if(wave<CHAPTER_BOSS_WAVE&&spawnClock<=0){spawnEnemy();spawnClock=Math.max(.55,1.22-time/260);}
+  spawnClock-=dt;if(wave<CHAPTER_BOSS_WAVE&&spawnClock<=0){spawnEnemy();spawnClock=Math.max(.72,1.45-time/420);}
   bullets.forEach(b=>{b.prevX=b.x;b.prevY=b.y;b.x+=b.vx*dt;b.y+=b.vy*dt;b.age=(b.age||0)+dt;});
   enemies.forEach(e=>{
     e.hitFlash=Math.max(0,(e.hitFlash||0)-dt);
