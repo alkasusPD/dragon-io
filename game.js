@@ -25,7 +25,7 @@ art.shadow.src = 'assets/sprites/dragon-shadow.png';
 let state = 'title', last = 0, time = 0, animationTime = 0, score = 0, wave = 1, spawnClock = 0, bgY = 0, waveBanner = 0, bossBanner = 0, countdownTime = 0, countdownValue = 0;
 let player, bullets = [], enemies = [], enemyShots = [], lasers = [], particles = [], fireImpacts = [], lightningEffects = [], damageTexts = [], gems = [], essences = [];
 const keys = new Set();
-const pointer = { active:false, id:null, baseX:0, baseY:0, knobX:0, knobY:0, dx:0, dy:0, radius:56, deadzone:8 };
+const pointer = { active:false, id:null, baseX:0, baseY:0, knobX:0, knobY:0, dx:0, dy:0, radius:56, deadzone:3 };
 const rand = (a,b) => a + Math.random() * (b-a);
 const clamp = (n,a,b) => Math.max(a,Math.min(b,n));
 const dist2 = (a,b) => (a.x-b.x)**2 + (a.y-b.y)**2;
@@ -39,7 +39,9 @@ const WAVE_PROGRESS_STEPS=[
   {wave:7,label:'7'},{wave:8,label:'8'},{wave:9,label:'9'},{wave:10,label:'☠',boss:true,final:true}
 ];
 const PLAYER_MAX_Y = H * .72;
-const TOUCH_SPEED_MULTIPLIER = 1.4;
+const TOUCH_SPEED_MULTIPLIER = 1;
+const PLAYER_SPEED_UPGRADE_MULTIPLIER = 1.08;
+const PLAYER_SPEED_CAP = 360;
 const characterTypes = {
   default: { ultimate: { maxGauge:100, projectileCount:24, damageMultiplier:5, projectileSpeed:620 } }
 };
@@ -294,7 +296,7 @@ const baseUpgrades=[
   {key:'fire',nameKey:'upgrade.rapidFire.name',descKey:'upgrade.rapidFire.desc',apply:()=>player.fire=Math.max(.085,player.fire*.82)},
   {key:'damage',nameKey:'upgrade.dragonHeart.name',descKey:'upgrade.dragonHeart.desc',apply:()=>player.damage*=1.35},
   {key:'multishot',nameKey:'upgrade.multishot.name',descKey:'upgrade.multishot.desc',apply:()=>player.multishot+=1},
-  {key:'speed',nameKey:'upgrade.speed.name',descKey:'upgrade.speed.desc',apply:()=>player.speed*=1.16},
+  {key:'speed',nameKey:'upgrade.speed.name',descKey:'upgrade.speed.desc',apply:()=>player.speed=Math.min(PLAYER_SPEED_CAP,player.speed*PLAYER_SPEED_UPGRADE_MULTIPLIER)},
   {key:'maxHp',nameKey:'upgrade.maxHp.name',descKey:'upgrade.maxHp.desc',apply:()=>{player.maxHp+=25;player.hp=Math.min(player.maxHp,player.hp+25)}},
   {key:'heal',nameKey:'upgrade.heal.name',descKey:'upgrade.heal.desc',apply:()=>player.hp=Math.min(player.maxHp,player.hp+45)}
 ];
