@@ -14,6 +14,9 @@ const STRING_TABLE = {
     'aria.titleStart': '시작',
     'aria.lobbyScreen': '챕터 로비 화면',
     'aria.lobbyPlay': '게임 시작',
+    'aria.lobbyShop': '상점',
+    'aria.lobbyHome': '로비',
+    'aria.lobbyUpgrade': '업그레이드',
     'aria.countdown': '게임 시작 카운트다운',
 
     'hud.level': 'LV. {level}',
@@ -118,6 +121,9 @@ const STRING_TABLE = {
     'aria.titleStart': 'Start',
     'aria.lobbyScreen': 'Chapter lobby screen',
     'aria.lobbyPlay': 'Start game',
+    'aria.lobbyShop': 'Shop',
+    'aria.lobbyHome': 'Lobby',
+    'aria.lobbyUpgrade': 'Upgrade',
     'aria.countdown': 'Game start countdown',
 
     'hud.level': 'LV. {level}',

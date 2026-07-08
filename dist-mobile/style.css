@@ -14,12 +14,16 @@ canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: 
 .screen { position: absolute; z-index: 10; inset: 0; display: none; background-position: center; background-repeat: no-repeat; background-size: 100% 100%; }
 .screen.visible { display: block; }
 .title-screen { background-image: url('assets/screens/title-screen.png'); }
-.lobby-screen { background-image: url('assets/screens/lobby-screen.png'); }
+.lobby-screen { background-image: url('assets/screens/lobby-screen-v2.png'); }
 .screen-hitbox { position: absolute; min-width: 0; margin: 0; padding: 0; border: 0; border-radius: 18px; color: transparent; background: transparent; box-shadow: none; opacity: .01; }
 .screen-hitbox:hover { transform: none; background: white; opacity: .08; }
 .screen-hitbox:focus-visible { outline: 4px solid #75e9ff; outline-offset: 3px; opacity: .14; }
 .title-start { left: 19%; bottom: 1.5%; width: 62%; height: 9.5%; }
 .lobby-play { left: 33%; bottom: 15.2%; width: 34%; height: 10%; }
+.lobby-tab { bottom: 0; height: 11.5%; }
+.lobby-tab-shop { left: 0; width: 35.5%; }
+.lobby-tab-home { left: 35.5%; width: 26%; }
+.lobby-tab-upgrade { right: 0; width: 38.5%; }
 .countdown { position: absolute; z-index: 7; inset: 0; display: none; place-content: center; text-align: center; pointer-events: none; background: #07364b38; text-shadow: 0 5px 12px #062636cc; }
 .countdown.visible { display: grid; }
 .countdown p { margin: 0; color: #f5ffde; font-size: clamp(28px, 8vw, 44px); font-weight: 1000; letter-spacing: .08em; }
