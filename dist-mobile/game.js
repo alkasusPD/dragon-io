@@ -562,6 +562,8 @@ function draw(){
 function loop(t){const dt=Math.min(.033,(t-last)/1000||0);last=t;update(dt);draw();requestAnimationFrame(loop);}requestAnimationFrame(loop);
 document.querySelector('#titleStart').onclick=showLobby;
 document.querySelector('#lobbyPlay').onclick=reset;
+document.querySelector('#lobbyShop').onclick=()=>{};
+document.querySelector('#lobbyHome').onclick=showLobby;
 document.querySelector('#lobbyUpgrade').onclick=showMetaUpgrade;
 document.querySelector('#upgradeBack').onclick=showLobby;
 document.querySelector('#upgradeHomeTab').onclick=showLobby;

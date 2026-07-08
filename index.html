@@ -59,9 +59,11 @@
         </div>
       </div>
       <button id="lobbyPlay" class="screen-hitbox lobby-play" type="button" data-i18n-aria-label="aria.lobbyPlay"></button>
-      <button id="lobbyShop" class="screen-hitbox lobby-tab lobby-tab-shop" type="button" data-i18n-aria-label="aria.lobbyShop"></button>
-      <button id="lobbyHome" class="screen-hitbox lobby-tab lobby-tab-home" type="button" data-i18n-aria-label="aria.lobbyHome"></button>
-      <button id="lobbyUpgrade" class="screen-hitbox lobby-tab lobby-tab-upgrade" type="button" data-i18n-aria-label="aria.lobbyUpgrade"></button>
+      <nav class="main-bottom-nav lobby-bottom-nav" aria-label="하단 메뉴">
+        <button id="lobbyShop" type="button" data-i18n-aria-label="aria.lobbyShop"><span>상점</span></button>
+        <button id="lobbyHome" class="home active" type="button" data-i18n-aria-label="aria.lobbyHome"><span>로비</span></button>
+        <button id="lobbyUpgrade" type="button" data-i18n-aria-label="aria.lobbyUpgrade"><span>업그레이드</span></button>
+      </nav>
     </section>
     <section id="upgradeScreen" class="screen upgrade-screen" aria-label="업그레이드 화면">
       <div class="upgrade-top-hud">
@@ -111,7 +113,7 @@
           </div>
         </section>
       </div>
-      <nav class="upgrade-bottom-nav" aria-label="하단 메뉴">
+      <nav class="main-bottom-nav upgrade-bottom-nav" aria-label="하단 메뉴">
         <button id="upgradeShopTab" type="button"><span>상점</span></button>
         <button id="upgradeHomeTab" class="home" type="button"><span>로비</span></button>
         <button class="active" type="button"><span>업그레이드</span></button>
@@ -152,7 +154,7 @@
       gameCanvas.height = Math.max(960, Math.round(gameCanvas.width * height / width));
     }
   </script>
-  <script src="strings.js?v=20260708-10"></script>
-  <script src="game.js?v=20260708-10"></script>
+  <script src="strings.js?v=20260708-11"></script>
+  <script src="game.js?v=20260708-11"></script>
 </body>
 </html>

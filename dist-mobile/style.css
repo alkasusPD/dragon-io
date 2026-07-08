@@ -21,10 +21,6 @@ canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: 
 .screen-hitbox:focus-visible { outline: 4px solid #75e9ff; outline-offset: 3px; opacity: .14; }
 .title-start { left: 19%; bottom: 1.5%; width: 62%; height: 9.5%; }
 .lobby-play { left: 33%; bottom: 15.2%; width: 34%; height: 10%; }
-.lobby-tab { bottom: 0; height: 11.5%; }
-.lobby-tab-shop { left: 0; width: 35.5%; }
-.lobby-tab-home { left: 35.5%; width: 26%; }
-.lobby-tab-upgrade { right: 0; width: 38.5%; }
 .lobby-top-hud { position: absolute; z-index: 2; top: 1.6%; left: 3.2%; right: 3.2%; display: flex; align-items: center; justify-content: space-between; gap: 10px; pointer-events: none; filter: drop-shadow(0 4px 5px #001b3b88); }
 .lobby-account { display: flex; align-items: center; min-width: 0; flex: 1 1 auto; }
 .lobby-profile-frame { position: relative; width: clamp(58px, 14.2vw, 82px); height: clamp(58px, 14.2vw, 82px); flex: 0 0 auto; border-radius: 50%; filter: drop-shadow(0 5px 0 #0c2131) drop-shadow(0 0 10px #67d7ff50); }
@@ -43,7 +39,7 @@ canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: 
 .upgrade-screen { overflow: hidden; padding: calc(18px + env(safe-area-inset-top)) 16px calc(92px + env(safe-area-inset-bottom)); background: radial-gradient(circle at 50% -5%, #71e7ff38, transparent 42%), linear-gradient(180deg,#0d4b6f 0%,#07283f 48%,#041b2f 100%); }
 .upgrade-screen::before { content: ''; position: absolute; inset: 0; opacity: .28; background: url('assets/backgrounds/sky-canyon-tall-v3.png') center top / cover no-repeat; filter: saturate(.85) brightness(.72); }
 .upgrade-screen::after { content: ''; position: absolute; inset: 9% 4% 10%; border: 2px solid #68d7ff42; border-radius: 26px; box-shadow: inset 0 0 42px #0ee9ff1a, 0 16px 45px #00142666; pointer-events: none; }
-.upgrade-top-hud, .upgrade-page-content, .upgrade-bottom-nav { position: relative; z-index: 1; }
+.upgrade-top-hud, .upgrade-page-content, .main-bottom-nav { position: relative; z-index: 1; }
 .upgrade-top-hud { display: grid; grid-template-columns: 48px minmax(0,1fr) clamp(118px,30vw,160px); align-items: center; gap: 9px; }
 .upgrade-back { display: grid; place-items: center; width: 43px; height: 43px; min-width: 0; margin: 0; padding: 0 0 4px; border: 3px solid #d7f9ff; border-radius: 14px; color: #f6ffff; background: linear-gradient(#31536c,#102b42); box-shadow: inset 0 1px #7dbbd1, 0 5px 0 #071827; font-size: 37px; line-height: 1; text-shadow: 0 2px #00131f; }
 .upgrade-kicker { margin: 0 0 2px; color: #9df2ff; font-size: clamp(9px,2.2vw,12px); font-weight: 1000; letter-spacing: .14em; text-shadow: 0 2px #001b29; }
@@ -92,10 +88,11 @@ canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: 
 .stat-node-footer strong { display: block; color: white; font-size: clamp(14px,3.6vw,18px); text-shadow: 0 2px #00131f; }
 .stat-node-effect { display: inline-grid; place-items: center; min-height: 22px; margin: 5px 0 0; padding: 2px 9px; border: 2px solid #77e8ff; border-radius: 999px; color: #eaffff; background: #0b3e55; font-size: clamp(11px,2.8vw,13px); font-weight: 1000; box-shadow: inset 0 1px #9af7ff80, 0 0 10px #48e3ff33; }
 .stat-node-footer button { min-width: 0; margin: 0; padding: 10px 13px; border: 2px solid #fff2a2; border-radius: 13px; color: #3d2504; background: linear-gradient(#ffe76b,#ffb22b); box-shadow: 0 4px 0 #9d5d12, 0 7px 14px #0003; font-size: clamp(11px,2.8vw,13px); }
-.upgrade-bottom-nav { position: absolute; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: 1fr 1fr 1fr; height: calc(76px + env(safe-area-inset-bottom)); padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); gap: 8px; background: linear-gradient(180deg,#0b2835e6,#04151fee); border-top: 3px solid #2a5264; box-shadow: 0 -8px 24px #00131f80; }
-.upgrade-bottom-nav button { min-width: 0; margin: 0; padding: 0; border: 2px solid #2a5264; border-radius: 18px; color: #b8d7e4; background: linear-gradient(#16374a,#0b2232); box-shadow: inset 0 1px #4e8499, 0 4px 0 #04111a; font-size: clamp(12px,3.2vw,15px); }
-.upgrade-bottom-nav button.active { color: #17321b; border-color: #f3ffb2; background: linear-gradient(#e9ff7f,#71df3f); box-shadow: inset 0 1px #ffffd4, 0 4px 0 #34752b, 0 0 18px #95ff5a50; }
-.upgrade-bottom-nav .home::before { content: ''; display: block; width: 30px; height: 30px; margin: 0 auto 2px; background: url('assets/sprites/dragon-red.png') 0 center / 1200% 100% no-repeat; filter: drop-shadow(0 2px #04111a); }
+.main-bottom-nav { position: absolute; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: 1fr 1fr 1fr; height: calc(76px + env(safe-area-inset-bottom)); padding: 8px 12px calc(8px + env(safe-area-inset-bottom)); gap: 8px; background: linear-gradient(180deg,#0b2835e6,#04151fee); border-top: 3px solid #2a5264; box-shadow: 0 -8px 24px #00131f80; }
+.main-bottom-nav button { min-width: 0; margin: 0; padding: 0; border: 2px solid #2a5264; border-radius: 18px; color: #b8d7e4; background: linear-gradient(#16374a,#0b2232); box-shadow: inset 0 1px #4e8499, 0 4px 0 #04111a; font-size: clamp(12px,3.2vw,15px); }
+.main-bottom-nav button.active { color: #17321b; border-color: #f3ffb2; background: linear-gradient(#e9ff7f,#71df3f); box-shadow: inset 0 1px #ffffd4, 0 4px 0 #34752b, 0 0 18px #95ff5a50; }
+.main-bottom-nav .home::before { content: ''; display: block; width: 30px; height: 30px; margin: 0 auto 2px; background: url('assets/sprites/dragon-red.png') 0 center / 1200% 100% no-repeat; filter: drop-shadow(0 2px #04111a); }
+.lobby-bottom-nav { z-index: 3; }
 .countdown { position: absolute; z-index: 7; inset: 0; display: none; place-content: center; text-align: center; pointer-events: none; background: #07364b38; text-shadow: 0 5px 12px #062636cc; }
 .countdown.visible { display: grid; }
 .countdown p { margin: 0; color: #f5ffde; font-size: clamp(28px, 8vw, 44px); font-weight: 1000; letter-spacing: .08em; }
