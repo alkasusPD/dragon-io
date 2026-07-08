@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dragon-io-mobile-v51';
+const CACHE_NAME = 'dragon-io-mobile-v52';
 const CORE_ASSETS = [
   './',
   './index.html',
