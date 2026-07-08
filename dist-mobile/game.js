@@ -346,11 +346,28 @@ function showLobby(){
   clearMovementInput();state='lobby';ui.title.classList.remove('visible');ui.upgradeScreen.classList.remove('visible');ui.over.classList.remove('visible');ui.lobby.classList.add('visible');hud.root.classList.remove('visible');ultimateButton.classList.remove('visible');
 }
 function showMetaUpgrade(){
-  clearMovementInput();state='lobby-upgrade';ui.lobby.classList.remove('visible');ui.title.classList.remove('visible');ui.upgradeScreen.classList.add('visible');hud.root.classList.remove('visible');ultimateButton.classList.remove('visible');
+  clearMovementInput();state='lobby-upgrade';ui.lobby.classList.remove('visible');ui.title.classList.remove('visible');ui.upgradeScreen.classList.add('visible');hud.root.classList.remove('visible');ultimateButton.classList.remove('visible');renderStatNodeTree();
 }
-function selectMetaUpgradeTab(tab){
-  document.querySelectorAll('[data-upgrade-tab]').forEach(button=>button.classList.toggle('active',button.dataset.upgradeTab===tab));
-  document.querySelectorAll('[data-upgrade-pane]').forEach(pane=>pane.classList.toggle('active',pane.dataset.upgradePane===tab));
+function renderStatNodeTree(){
+  const rail=document.querySelector('#statNodeRail'),scroll=document.querySelector('#statNodeScroll'),levelText=document.querySelector('#statNodeLevel'),nextText=document.querySelector('#statNodeNext');
+  if(!rail)return;
+  const maxLevel=50,currentLevel=12;
+  const nodeTypes=[
+    {type:'attack',name:'공격력',effect:'+2%'},
+    {type:'health',name:'체력',effect:'+20'},
+    {type:'utility',name:'유틸리티',effect:'+1%'}
+  ];
+  rail.innerHTML='';
+  rail.style.setProperty('--stat-progress',`${Math.max(0,(currentLevel-1)/(maxLevel-1))*100}%`);
+  for(let level=1;level<=maxLevel;level++){
+    const config=nodeTypes[(level-1)%nodeTypes.length],node=document.createElement('div');
+    node.className=`stat-node ${config.type} ${level<currentLevel?'complete':level===currentLevel?'current':'locked'}`;
+    node.innerHTML=`<div class="stat-node-label"><strong>Lv.${level}</strong>${config.name} ${config.effect}</div><div class="stat-node-box" aria-label="${config.name} ${level}단계"></div>`;
+    rail.appendChild(node);
+  }
+  if(levelText)levelText.textContent=`${currentLevel} / ${maxLevel}`;
+  if(nextText){const next=nodeTypes[currentLevel%nodeTypes.length];nextText.textContent=`${next.name} Lv.${Math.min(maxLevel,currentLevel+1)}`;}
+  requestAnimationFrame(()=>{if(scroll)scroll.scrollTop=scroll.scrollHeight;});
 }
 function setResultMode(clear){ui.over.querySelector('[data-i18n="result.eyebrow"]').textContent=t(clear?'result.clearEyebrow':'result.eyebrow');ui.over.querySelector('[data-i18n="result.title"]').textContent=t(clear?'result.clearTitle':'result.title');}
 function completeChapter(){releaseVirtualJoystick();state='over';setResultMode(true);ui.result.textContent=t('result.clearSummary',{score});ui.over.classList.add('visible');ultimateButton.classList.remove('visible');hud.root.classList.remove('visible');}
@@ -528,7 +545,6 @@ document.querySelector('#lobbyUpgrade').onclick=showMetaUpgrade;
 document.querySelector('#upgradeBack').onclick=showLobby;
 document.querySelector('#upgradeHomeTab').onclick=showLobby;
 document.querySelector('#upgradeShopTab').onclick=()=>{};
-document.querySelectorAll('[data-upgrade-tab]').forEach(button=>button.onclick=()=>selectMetaUpgradeTab(button.dataset.upgradeTab));
 document.querySelector('#restart').onclick=reset;
 ui.reroll.onclick=()=>{if(state!=='upgrade'||player.rerolls<=0)return;const previous=JSON.parse(ui.reroll.dataset.choices||'[]');player.rerolls--;renderUpgradeChoices(previous);};
 document.querySelector('#backLobby').onclick=showLobby;
