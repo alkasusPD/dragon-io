@@ -35,10 +35,9 @@ canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: 
 .lobby-account-level { display: inline-grid; place-items: center; min-width: 50px; margin-top: 5px; padding: 2px 8px; border: 2px solid #173047; border-radius: 999px; color: #17321b; background: linear-gradient(#dbff72,#75df36); font-size: clamp(10px, 2.5vw, 13px); font-weight: 1000; box-shadow: inset 0 1px #f6ffc0, 0 2px 0 #061927; }
 .lobby-wallet { display: grid; grid-template-columns: 1fr; gap: 7px; width: clamp(122px, 30vw, 166px); flex: 0 0 auto; }
 .lobby-currency { display: flex; align-items: center; height: clamp(28px, 7.2vw, 38px); padding: 3px 10px 3px 4px; border: 3px solid #1e3143; border-radius: 999px; background: linear-gradient(180deg,#173b66e8,#071d36e8); box-shadow: inset 0 1px #4e91c2, 0 4px 0 #082237; }
-.lobby-currency-icon { position: relative; width: clamp(22px, 5.8vw, 31px); height: clamp(22px, 5.8vw, 31px); flex: 0 0 auto; margin-right: 7px; }
-.lobby-gold .lobby-currency-icon { border: 2px solid #fff0a3; border-radius: 50%; background: radial-gradient(circle at 35% 28%, #fff7a3 0 22%, #ffc42d 46%, #e57f15 100%); box-shadow: inset 0 0 0 3px #f8ad1e, 0 0 8px #ffd84a80; }
-.lobby-gold .lobby-currency-icon::after { content: ''; position: absolute; inset: 29%; border-radius: 50%; background: #ffe174; box-shadow: inset 0 1px #fff8b5; }
-.lobby-diamond .lobby-currency-icon { clip-path: polygon(50% 0, 93% 28%, 78% 100%, 22% 100%, 7% 28%); background: linear-gradient(135deg,#b7ff7a 0,#3fdc47 45%,#129335 100%); box-shadow: 0 0 9px #7dff6a70; }
+.lobby-currency-icon { position: relative; width: clamp(25px, 6.4vw, 35px); height: clamp(25px, 6.4vw, 35px); flex: 0 0 auto; margin-right: 7px; background-position: center; background-repeat: no-repeat; background-size: contain; }
+.lobby-gold .lobby-currency-icon { background-image: url('assets/ui/hud/coin.png'); filter: drop-shadow(0 1px 0 #8a4b10) drop-shadow(0 0 5px #ffd84a70); }
+.lobby-diamond .lobby-currency-icon { background-image: url('assets/ui/hud/diamond.png'); filter: drop-shadow(0 1px 0 #073d16) drop-shadow(0 0 6px #7dff6a80); }
 .lobby-currency-value { min-width: 0; overflow: hidden; color: white; font-size: clamp(12px, 3.3vw, 17px); font-weight: 1000; letter-spacing: .01em; line-height: 1; white-space: nowrap; text-overflow: ellipsis; text-shadow: 0 2px #03121d; }
 .countdown { position: absolute; z-index: 7; inset: 0; display: none; place-content: center; text-align: center; pointer-events: none; background: #07364b38; text-shadow: 0 5px 12px #062636cc; }
 .countdown.visible { display: grid; }
