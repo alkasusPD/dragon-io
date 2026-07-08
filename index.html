@@ -81,12 +81,25 @@
             <div class="stat-badge attack"><span></span></div>
             <div>
               <strong>능력치 노드</strong>
-              <p>아래에서부터 1단계씩 찍으며 50단계까지 올라갑니다.</p>
+              <p>공격력 · 체력 · 유틸리티를 각각 50단계까지 성장시킵니다.</p>
             </div>
-            <em id="statNodeLevel">12 / 50</em>
+            <em id="statNodeLevel">총 25</em>
           </div>
           <div id="statNodeScroll" class="stat-node-scroll">
-            <div id="statNodeRail" class="stat-node-rail"></div>
+            <div class="stat-node-lanes" aria-label="능력치별 세로 노드 라인">
+              <div class="stat-node-lane attack" data-stat-type="attack">
+                <div class="stat-node-lane-title"><span></span><strong>공격력</strong></div>
+                <div id="attackNodeRail" class="stat-node-rail"></div>
+              </div>
+              <div class="stat-node-lane health" data-stat-type="health">
+                <div class="stat-node-lane-title"><span></span><strong>체력</strong></div>
+                <div id="healthNodeRail" class="stat-node-rail"></div>
+              </div>
+              <div class="stat-node-lane utility" data-stat-type="utility">
+                <div class="stat-node-lane-title"><span></span><strong>유틸리티</strong></div>
+                <div id="utilityNodeRail" class="stat-node-rail"></div>
+              </div>
+            </div>
           </div>
           <div class="stat-node-footer">
             <div>
@@ -138,7 +151,7 @@
       gameCanvas.height = Math.max(960, Math.round(gameCanvas.width * height / width));
     }
   </script>
-  <script src="strings.js?v=20260708-07"></script>
-  <script src="game.js?v=20260708-07"></script>
+  <script src="strings.js?v=20260708-08"></script>
+  <script src="game.js?v=20260708-08"></script>
 </body>
 </html>

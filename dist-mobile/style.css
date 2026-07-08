@@ -61,23 +61,27 @@ canvas { width: 100%; height: 100%; display: block; touch-action: none; cursor: 
 .stat-badge { width: 48px; height: 48px; border-radius: 15px; background: #122a43; box-shadow: inset 0 0 0 3px #5edfff33, 0 4px 0 #071827; }
 .stat-badge span { display: block; width: 100%; height: 100%; background: url('assets/ui/upgrade/upgrade-attack.png') center / contain no-repeat; filter: drop-shadow(0 2px #061624); }
 .stat-node-scroll { min-height: 0; margin: 12px 2px; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #ffcf4a #07172a; }
-.stat-node-rail { position: relative; display: flex; flex-direction: column-reverse; align-items: center; gap: 22px; min-height: 100%; padding: 26px 0 30px; }
-.stat-node-rail::before { content: ''; position: absolute; top: 28px; bottom: 31px; left: 50%; width: 8px; transform: translateX(-50%); border: 2px solid #111c25; border-radius: 999px; background: linear-gradient(180deg,#303946,#121923); box-shadow: inset 0 0 0 1px #627181, 0 0 0 4px #030915, 0 0 22px #3b69ff33; }
-.stat-node-rail::after { content: ''; position: absolute; bottom: 31px; left: 50%; width: 8px; height: var(--stat-progress, 24%); transform: translateX(-50%); border-radius: 999px; background: linear-gradient(180deg,#fff7a8,#ffd13c,#a96a12); box-shadow: 0 0 13px #ffdb5388; }
-.stat-node { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 72px 1fr; align-items: center; width: min(100%, 360px); min-height: 64px; }
-.stat-node:nth-child(even) .stat-node-label { grid-column: 1; justify-self: end; text-align: right; }
-.stat-node:nth-child(odd) .stat-node-label { grid-column: 3; justify-self: start; text-align: left; }
-.stat-node-box { grid-column: 2; display: grid; place-items: center; width: 62px; height: 62px; justify-self: center; border: 3px solid #6c7680; background: linear-gradient(#3b4650,#252d36); box-shadow: inset 0 0 0 2px #151c24, 0 4px 0 #080d13; }
-.stat-node-box::before { content: ''; width: 44px; height: 44px; background: center / contain no-repeat; opacity: .46; filter: grayscale(1) brightness(1.3); }
+.stat-node-lanes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; min-height: 100%; padding: 2px 0 10px; }
+.stat-node-lane { display: grid; grid-template-rows: auto minmax(0,1fr); min-width: 0; border: 2px solid #253a58; border-radius: 18px; background: linear-gradient(180deg,#081633d9,#040b1ce8); box-shadow: inset 0 1px #6ca7ff33, 0 4px 0 #030915; overflow: hidden; }
+.stat-node-lane-title { position: sticky; top: 0; z-index: 3; display: grid; place-items: center; gap: 3px; padding: 7px 3px 8px; border-bottom: 2px solid #263c5a; background: linear-gradient(180deg,#16294ae8,#07142de8); color: #d7ecff; font-size: clamp(10px,2.6vw,13px); font-weight: 1000; text-shadow: 0 2px #00131f; }
+.stat-node-lane-title span { width: 28px; height: 28px; background: center / contain no-repeat; filter: drop-shadow(0 2px #061624); }
+.stat-node-lane.attack .stat-node-lane-title span { background-image: url('assets/ui/upgrade/upgrade-attack.png'); }
+.stat-node-lane.health .stat-node-lane-title span { background-image: url('assets/ui/upgrade/upgrade-health.png'); }
+.stat-node-lane.utility .stat-node-lane-title span { background-image: url('assets/ui/upgrade/upgrade-utility.png'); }
+.stat-node-rail { position: relative; display: flex; flex-direction: column-reverse; align-items: center; gap: 15px; min-height: 100%; padding: 24px 0 28px; }
+.stat-node-rail::before { content: ''; position: absolute; top: 26px; bottom: 29px; left: 50%; width: 6px; transform: translateX(-50%); border: 2px solid #111c25; border-radius: 999px; background: linear-gradient(180deg,#303946,#121923); box-shadow: inset 0 0 0 1px #627181, 0 0 0 3px #030915, 0 0 18px #3b69ff33; }
+.stat-node-rail::after { content: ''; position: absolute; bottom: 29px; left: 50%; width: 6px; height: var(--stat-progress, 0%); transform: translateX(-50%); border-radius: 999px; background: linear-gradient(180deg,#fff7a8,#ffd13c,#a96a12); box-shadow: 0 0 12px #ffdb5388; }
+.stat-node { position: relative; z-index: 1; display: grid; place-items: center; min-height: 48px; }
+.stat-node-box { display: grid; place-items: center; width: clamp(42px, 11vw, 56px); height: clamp(42px, 11vw, 56px); justify-self: center; border: 3px solid #6c7680; background: linear-gradient(#3b4650,#252d36); box-shadow: inset 0 0 0 2px #151c24, 0 4px 0 #080d13; }
+.stat-node-box::before { content: ''; width: 78%; height: 78%; background: center / contain no-repeat; opacity: .46; filter: grayscale(1) brightness(1.3); }
 .stat-node.attack .stat-node-box::before { background-image: url('assets/ui/upgrade/upgrade-attack.png'); }
 .stat-node.health .stat-node-box::before { background-image: url('assets/ui/upgrade/upgrade-health.png'); }
 .stat-node.utility .stat-node-box::before { background-image: url('assets/ui/upgrade/upgrade-utility.png'); }
 .stat-node.complete .stat-node-box, .stat-node.current .stat-node-box { border-color: #ffeaa1; background: linear-gradient(#5c3441,#32223c); box-shadow: inset 0 0 0 2px #241126, 0 0 15px #ffd94a66, 0 4px 0 #4e2d12; }
 .stat-node.complete .stat-node-box::before, .stat-node.current .stat-node-box::before { opacity: 1; filter: drop-shadow(0 2px #081423); }
 .stat-node.current .stat-node-box { transform: scale(1.1); border-color: #fff6ba; box-shadow: inset 0 0 0 2px #6b2d13, 0 0 22px #ffdb58aa, 0 5px 0 #754311; }
-.stat-node-label { max-width: 120px; padding: 7px 9px; border: 2px solid #2b4460; border-radius: 12px; color: #8da9bc; background: #061222cc; box-shadow: inset 0 1px #526c8350; font-size: 11px; font-weight: 900; line-height: 1.12; }
-.stat-node.complete .stat-node-label, .stat-node.current .stat-node-label { color: #fff5bf; border-color: #6e5422; background: #251a13dd; }
-.stat-node-label strong { display: block; color: #fff; font-size: 12px; }
+.stat-node-level { position: absolute; right: -2px; bottom: -3px; display: grid; place-items: center; min-width: 22px; height: 18px; padding: 0 4px; border: 2px solid #0b1420; border-radius: 999px; color: #d5e1e8; background: #273440; font-size: 9px; font-weight: 1000; line-height: 1; }
+.stat-node.complete .stat-node-level, .stat-node.current .stat-node-level { color: #3b2505; border-color: #fff1a4; background: linear-gradient(#fff0aa,#ffbc38); }
 .stat-node-footer { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 10px; padding: 10px; border: 2px solid #314d67; border-radius: 18px; background: linear-gradient(180deg,#102940e8,#071a2be8); box-shadow: inset 0 1px #7bbde950, 0 4px 0 #04111d; }
 .stat-node-footer span { color: #8fb8ca; font-size: 11px; font-weight: 900; }
 .stat-node-footer strong { display: block; color: white; font-size: clamp(14px,3.6vw,18px); text-shadow: 0 2px #00131f; }

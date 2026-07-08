@@ -349,24 +349,26 @@ function showMetaUpgrade(){
   clearMovementInput();state='lobby-upgrade';ui.lobby.classList.remove('visible');ui.title.classList.remove('visible');ui.upgradeScreen.classList.add('visible');hud.root.classList.remove('visible');ultimateButton.classList.remove('visible');renderStatNodeTree();
 }
 function renderStatNodeTree(){
-  const rail=document.querySelector('#statNodeRail'),scroll=document.querySelector('#statNodeScroll'),levelText=document.querySelector('#statNodeLevel'),nextText=document.querySelector('#statNodeNext');
-  if(!rail)return;
-  const maxLevel=50,currentLevel=12;
+  const scroll=document.querySelector('#statNodeScroll'),levelText=document.querySelector('#statNodeLevel'),nextText=document.querySelector('#statNodeNext');
+  const maxLevel=50;
   const nodeTypes=[
-    {type:'attack',name:'공격력',effect:'+2%'},
-    {type:'health',name:'체력',effect:'+20'},
-    {type:'utility',name:'유틸리티',effect:'+1%'}
+    {type:'attack',name:'공격력',effect:'+2%',level:12,rail:document.querySelector('#attackNodeRail')},
+    {type:'health',name:'체력',effect:'+20',level:8,rail:document.querySelector('#healthNodeRail')},
+    {type:'utility',name:'유틸리티',effect:'+1%',level:5,rail:document.querySelector('#utilityNodeRail')}
   ];
-  rail.innerHTML='';
-  rail.style.setProperty('--stat-progress',`${Math.max(0,(currentLevel-1)/(maxLevel-1))*100}%`);
-  for(let level=1;level<=maxLevel;level++){
-    const config=nodeTypes[(level-1)%nodeTypes.length],node=document.createElement('div');
-    node.className=`stat-node ${config.type} ${level<currentLevel?'complete':level===currentLevel?'current':'locked'}`;
-    node.innerHTML=`<div class="stat-node-label"><strong>Lv.${level}</strong>${config.name} ${config.effect}</div><div class="stat-node-box" aria-label="${config.name} ${level}단계"></div>`;
-    rail.appendChild(node);
-  }
-  if(levelText)levelText.textContent=`${currentLevel} / ${maxLevel}`;
-  if(nextText){const next=nodeTypes[currentLevel%nodeTypes.length];nextText.textContent=`${next.name} Lv.${Math.min(maxLevel,currentLevel+1)}`;}
+  nodeTypes.forEach(config=>{
+    if(!config.rail)return;
+    config.rail.innerHTML='';
+    config.rail.style.setProperty('--stat-progress',`${Math.max(0,(config.level-1)/(maxLevel-1))*100}%`);
+    for(let level=1;level<=maxLevel;level++){
+      const node=document.createElement('div');
+      node.className=`stat-node ${config.type} ${level<config.level?'complete':level===config.level?'current':'locked'}`;
+      node.innerHTML=`<div class="stat-node-box" aria-label="${config.name} ${level}단계"><span class="stat-node-level">${level}</span></div>`;
+      config.rail.appendChild(node);
+    }
+  });
+  if(levelText)levelText.textContent=`총 ${nodeTypes.reduce((sum,item)=>sum+item.level,0)}`;
+  if(nextText){const next=nodeTypes.slice().sort((a,b)=>a.level-b.level)[0];nextText.textContent=`${next.name} Lv.${Math.min(maxLevel,next.level+1)}`;}
   requestAnimationFrame(()=>{if(scroll)scroll.scrollTop=scroll.scrollHeight;});
 }
 function setResultMode(clear){ui.over.querySelector('[data-i18n="result.eyebrow"]').textContent=t(clear?'result.clearEyebrow':'result.eyebrow');ui.over.querySelector('[data-i18n="result.title"]').textContent=t(clear?'result.clearTitle':'result.title');}
